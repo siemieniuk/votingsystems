@@ -1,11 +1,14 @@
 package io.github.siemieniuk.votingsystems.strategy.interfaces;
 
 import io.github.siemieniuk.votingsystems.ballot.SingleChoiceBallot;
+import io.github.siemieniuk.votingsystems.ballot.entry.CandidateEntry;
 
 import java.util.List;
+import java.util.Set;
 
-public interface SingleChoiceBallotAcceptable<T>
-        extends VotingSystemStrategy<T, SingleChoiceBallot<T>> {
+public interface SingleChoiceBallotAcceptable
+        extends VotingSystemStrategy<SingleChoiceBallot> {
 
-    List<T> countVotes(List<SingleChoiceBallot<T>> ballots);
+    @Override
+    void fit(List<SingleChoiceBallot> ballots, Set<CandidateEntry<?, ?>> allCandidates);
 }

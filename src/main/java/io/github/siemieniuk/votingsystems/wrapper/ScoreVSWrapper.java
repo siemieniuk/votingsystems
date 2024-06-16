@@ -1,16 +1,16 @@
 package io.github.siemieniuk.votingsystems.wrapper;
 
 import io.github.siemieniuk.votingsystems.ballot.ScoreBallot;
-import io.github.siemieniuk.votingsystems.strategy.interfaces.ScoreAcceptable;
+import io.github.siemieniuk.votingsystems.strategy.interfaces.ScoreBallotAcceptable;
 
-public class ScoreVSWrapper<T>
-        extends VotingSystemWrapper<T, ScoreBallot<T>, ScoreAcceptable<T>> {
+public class ScoreVSWrapper
+        extends VotingSystemWrapper<ScoreBallot, ScoreBallotAcceptable> {
 
     public ScoreVSWrapper() {
         super();
     }
 
-    public ScoreVSWrapper(ScoreAcceptable<T> strategy) {
+    public ScoreVSWrapper(ScoreBallotAcceptable strategy) {
         super(strategy);
     }
 }

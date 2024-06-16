@@ -1,25 +1,25 @@
 package io.github.siemieniuk.votingsystems;
 
 import io.github.siemieniuk.votingsystems.ballot.SingleChoiceBallot;
+import io.github.siemieniuk.votingsystems.ballot.entry.CandidateEntry;
 import io.github.siemieniuk.votingsystems.strategy.FirstPastThePost;
 import io.github.siemieniuk.votingsystems.wrapper.SingleChoiceVSWrapper;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class FirstPastThePostExecutorTest {
 
-    static SingleChoiceVSWrapper<Integer> wrapper;
+    static SingleChoiceVSWrapper wrapper;
 
     @BeforeAll
     public static void setUp() {
-        FirstPastThePost<Integer> strategy = new FirstPastThePost<>();
-        wrapper = new SingleChoiceVSWrapper<>(strategy);
+        FirstPastThePost strategy = new FirstPastThePost();
+        wrapper = new SingleChoiceVSWrapper(strategy);
     }
 
     @Test
@@ -36,11 +36,12 @@ class FirstPastThePostExecutorTest {
         }
         Collections.shuffle(chosenOptions);
 
-        List<SingleChoiceBallot<Integer>> ballots;
-        ballots = chosenOptions.stream().map(SingleChoiceBallot::new).toList();
+        List<CandidateEntry<?, ?>> entries = chosenOptions.stream().map(e -> new CandidateEntry<>(e, 1)).collect(Collectors.toList());
+        Set<CandidateEntry<?, ?>> candidates = Set.copyOf(entries);
+        List<SingleChoiceBallot> ballots = entries.stream().map(SingleChoiceBallot::new).toList();
 
-        wrapper.fit(ballots);
-        assertEquals(1, wrapper.getWinners().getFirst(), 1);
+        wrapper.fit(ballots, candidates);
+        assertEquals(1, wrapper.getWinners().getFirst().partyBlock());
         assertEquals(1, wrapper.getWinners().size());
     }
 
@@ -49,11 +50,13 @@ class FirstPastThePostExecutorTest {
         List<Integer> chosenOptions = new ArrayList<>();
         chosenOptions.add(1);
 
-        List<SingleChoiceBallot<Integer>> ballots;
-        ballots = chosenOptions.stream().map(SingleChoiceBallot::new).toList();
-        wrapper.fit(ballots);
+        List<CandidateEntry<?, ?>> entries = chosenOptions.stream().map(e -> new CandidateEntry<>(e, 1)).collect(Collectors.toList());
+        Set<CandidateEntry<?, ?>> candidates = Set.copyOf(entries);
+        List<SingleChoiceBallot> ballots = entries.stream().map(SingleChoiceBallot::new).toList();
 
-        assertEquals(1, wrapper.getWinners().getFirst(), 1);
+        wrapper.fit(ballots, candidates);
+
+        assertEquals(entries.getFirst(), wrapper.getWinners().getFirst());
         assertEquals(1, wrapper.getWinners().size());
     }
 
@@ -70,15 +73,13 @@ class FirstPastThePostExecutorTest {
             chosenOptions.add(3);
         }
 
-        List<SingleChoiceBallot<Integer>> ballots = new ArrayList<>();
+        List<CandidateEntry<?, ?>> entries = chosenOptions.stream().map(e -> new CandidateEntry<>(e, 1)).collect(Collectors.toList());
+        Set<CandidateEntry<?, ?>> candidates = Set.copyOf(entries);
+        List<SingleChoiceBallot> ballots = entries.stream().map(SingleChoiceBallot::new).toList();
 
-        for (Integer preference : chosenOptions) {
-            ballots.add(new SingleChoiceBallot<>(preference));
-        }
+        wrapper.fit(ballots, candidates);
 
-        wrapper.fit(ballots);
-
-        assertEquals(1, wrapper.getWinners().getFirst());
+        assertEquals(1, wrapper.getWinners().getFirst().partyBlock());
         assertEquals(1, wrapper.getWinners().size());
     }
 
@@ -90,15 +91,13 @@ class FirstPastThePostExecutorTest {
         }
         chosenOptions.add(1);
 
-        List<SingleChoiceBallot<Integer>> ballots = new ArrayList<>();
+        List<CandidateEntry<?, ?>> entries = chosenOptions.stream().map(e -> new CandidateEntry<>(e, 1)).collect(Collectors.toList());
+        Set<CandidateEntry<?, ?>> candidates = Set.copyOf(entries);
+        List<SingleChoiceBallot> ballots = entries.stream().map(SingleChoiceBallot::new).toList();
 
-        for (Integer preference : chosenOptions) {
-            ballots.add(new SingleChoiceBallot<>(preference));
-        }
+        wrapper.fit(ballots, candidates);
 
-        wrapper.fit(ballots);
-
-        assertEquals(1, wrapper.getWinners().getFirst());
+        assertEquals(1, wrapper.getWinners().getFirst().partyBlock());
         assertEquals(1, wrapper.getWinners().size());
     }
 }

@@ -1,5 +1,9 @@
 package io.github.siemieniuk.votingsystems.ballot;
 
+/**
+ * An abstract ballot
+ * @param <T> A type of the preference
+ */
 public abstract class Ballot<T> implements Verifiable {
     private T preferences;
 

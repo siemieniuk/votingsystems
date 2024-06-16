@@ -7,9 +7,9 @@ import java.util.Objects;
 
 @Setter
 @Getter
-public class CumulativeBallotEntry<T> extends EntryWithNumber<T, Float> {
+public class CumulativeBallotEntry extends EntryWithNumber<CandidateEntry<?, ?>, Float> {
 
-    public CumulativeBallotEntry(T preference, float fraction) {
+    public CumulativeBallotEntry(CandidateEntry<?, ?> preference, float fraction) {
         super(preference, fraction);
     }
 
@@ -17,7 +17,7 @@ public class CumulativeBallotEntry<T> extends EntryWithNumber<T, Float> {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        CumulativeBallotEntry<?> that = (CumulativeBallotEntry<?>) o;
+        CumulativeBallotEntry that = (CumulativeBallotEntry) o;
         return Objects.equals(getPreference(), that.getPreference()) && Objects.equals(getScore(), that.getScore());
     }
 

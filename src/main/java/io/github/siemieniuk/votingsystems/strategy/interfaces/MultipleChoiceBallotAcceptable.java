@@ -1,11 +1,14 @@
 package io.github.siemieniuk.votingsystems.strategy.interfaces;
 
 import io.github.siemieniuk.votingsystems.ballot.MultipleChoiceBallot;
+import io.github.siemieniuk.votingsystems.ballot.entry.CandidateEntry;
 
 import java.util.List;
+import java.util.Set;
 
-public interface MultipleChoiceBallotAcceptable<T>
-    extends VotingSystemStrategy<T, MultipleChoiceBallot<T>> {
+public interface MultipleChoiceBallotAcceptable
+    extends VotingSystemStrategy<MultipleChoiceBallot> {
 
-    List<T> countVotes(List<MultipleChoiceBallot<T>> ballots);
+    @Override
+    void fit(List<MultipleChoiceBallot> ballots, Set<CandidateEntry<?, ?>> allCandidates);
 }

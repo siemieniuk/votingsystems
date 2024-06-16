@@ -3,14 +3,14 @@ package io.github.siemieniuk.votingsystems.wrapper;
 import io.github.siemieniuk.votingsystems.ballot.CumulativeBallot;
 import io.github.siemieniuk.votingsystems.strategy.interfaces.CumulativeBallotAcceptable;
 
-public class CumulativeVSWrapper<T>
-        extends VotingSystemWrapper<T, CumulativeBallot<T>, CumulativeBallotAcceptable<T>> {
+public class CumulativeVSWrapper
+        extends VotingSystemWrapper<CumulativeBallot, CumulativeBallotAcceptable> {
 
     public CumulativeVSWrapper() {
         super();
     }
 
-    public CumulativeVSWrapper(CumulativeBallotAcceptable<T> strategy) {
+    public CumulativeVSWrapper(CumulativeBallotAcceptable strategy) {
         super(strategy);
     }
 }

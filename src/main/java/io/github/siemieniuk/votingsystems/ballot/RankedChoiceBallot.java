@@ -1,10 +1,13 @@
 package io.github.siemieniuk.votingsystems.ballot;
 
+import io.github.siemieniuk.votingsystems.ballot.entry.CandidateEntry;
+
 import java.util.Map;
 
-public class RankedChoiceBallot<T> extends Ballot<Map<Integer, T>> {
+public class RankedChoiceBallot
+        extends Ballot<Map<Integer, CandidateEntry<?, ?>>> {
 
-    public RankedChoiceBallot(Map<Integer, T> preferences) {
+    public RankedChoiceBallot(Map<Integer, CandidateEntry<?, ?>> preferences) {
         super(preferences);
     }
 
