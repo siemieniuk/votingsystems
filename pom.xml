@@ -7,18 +7,31 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<name>Voting Systems</name>
 	<description>
-		A voting systems implementation.
-		Support for First-Past-The-Rule, Anti-Plurality Rule.
-		WIP
+		Voting Systems - Implementations of various Social Choice Theory algorithms in Java 21
 	</description>
 	<properties>
 		<java.version>21</java.version>
 	</properties>
+	<distributionManagement>
+		<repository>
+			<id>ossrh</id>
+			<name>Central Repository OSSRH</name>
+			<url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+		</repository>
+	</distributionManagement>
 	<dependencies>
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
 			<optional>true</optional>
+			<version>1.18.32</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.junit.jupiter</groupId>
+			<artifactId>junit-jupiter</artifactId>
+			<scope>test</scope>
+			<version>5.10.2</version>
 		</dependency>
 	</dependencies>
 
@@ -29,11 +42,13 @@
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>3.11.0</version>
 				<configuration>
+					<source>21</source>
+					<target>21</target>
 					<annotationProcessorPaths>
 						<path>
 							<groupId>org.projectlombok</groupId>
 							<artifactId>lombok</artifactId>
-							<version>${lombok.version}</version>
+							<version>1.18.32</version>
 						</path>
 					</annotationProcessorPaths>
 				</configuration>
