@@ -1,5 +1,7 @@
 # Voting Systems
 
+[![Publish package to the Maven Central Repository and GitHub Packages](https://github.com/siemieniuk/voting-systems/actions/workflows/publish.yml/badge.svg)](https://github.com/siemieniuk/voting-systems/actions/workflows/publish.yml)
+
 This project implements various voting systems using Java 21.
 
 **WIP - Work In Progress**
