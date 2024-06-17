@@ -21,21 +21,21 @@ class AntiPluralityTest {
 
     @Test
     public void testCalculate__oneWinner() {
-        SingleChoiceBallotDataset group = new SingleChoiceBallotDataset();
+        SingleChoiceBallotDataset dataset = new SingleChoiceBallotDataset();
 
-        group.addCandidate(1, "A");
-        group.addCandidate(1, "B");
-        group.addCandidate(1, "C");
+        dataset.addCandidate(1, "A");
+        dataset.addCandidate(1, "B");
+        dataset.addCandidate(1, "C");
 
         for (int i=0; i<5; i++) {
-            group.add(new SingleChoiceBallot(new CandidateEntry(1, "A")));
+            dataset.add(new SingleChoiceBallot(new CandidateEntry(1, "A")));
         }
 
         for (int i=0; i<6; i++) {
-            group.add(new SingleChoiceBallot(new CandidateEntry(1, "B")));
+            dataset.add(new SingleChoiceBallot(new CandidateEntry(1, "B")));
         }
 
-        antiPlurality.fit(group);
+        antiPlurality.fit(dataset);
 
         List<CandidateEntry> results = antiPlurality.getWinners();
 
