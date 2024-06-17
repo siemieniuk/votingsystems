@@ -7,7 +7,6 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -34,7 +33,7 @@ class FirstPastThePostExecutorTest {
         }
         Collections.shuffle(chosenOptions);
 
-        List<CandidateEntry> entries = chosenOptions.stream().map(e -> new CandidateEntry(e, 1)).collect(Collectors.toList());
+        List<CandidateEntry> entries = chosenOptions.stream().map(e -> new CandidateEntry(e, 1)).toList();
         Set<CandidateEntry> candidates = Set.copyOf(entries);
         List<SingleChoiceBallot> ballots = entries.stream().map(SingleChoiceBallot::new).toList();
 
@@ -48,7 +47,7 @@ class FirstPastThePostExecutorTest {
         List<Integer> chosenOptions = new ArrayList<>();
         chosenOptions.add(1);
 
-        List<CandidateEntry> entries = chosenOptions.stream().map(e -> new CandidateEntry(e, 1)).collect(Collectors.toList());
+        List<CandidateEntry> entries = chosenOptions.stream().map(e -> new CandidateEntry(e, 1)).toList();
         Set<CandidateEntry> candidates = Set.copyOf(entries);
         List<SingleChoiceBallot> ballots = entries.stream().map(SingleChoiceBallot::new).toList();
 
@@ -71,7 +70,7 @@ class FirstPastThePostExecutorTest {
             chosenOptions.add(3);
         }
 
-        List<CandidateEntry> entries = chosenOptions.stream().map(e -> new CandidateEntry(e, 1)).collect(Collectors.toList());
+        List<CandidateEntry> entries = chosenOptions.stream().map(e -> new CandidateEntry(e, 1)).toList();
         Set<CandidateEntry> candidates = Set.copyOf(entries);
         List<SingleChoiceBallot> ballots = entries.stream().map(SingleChoiceBallot::new).toList();
 
@@ -89,7 +88,7 @@ class FirstPastThePostExecutorTest {
         }
         chosenOptions.add(1);
 
-        List<CandidateEntry> entries = chosenOptions.stream().map(e -> new CandidateEntry(e, 1)).collect(Collectors.toList());
+        List<CandidateEntry> entries = chosenOptions.stream().map(e -> new CandidateEntry(e, 1)).toList();
         Set<CandidateEntry> candidates = Set.copyOf(entries);
         List<SingleChoiceBallot> ballots = entries.stream().map(SingleChoiceBallot::new).toList();
 
