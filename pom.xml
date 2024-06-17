@@ -53,7 +53,13 @@
 			<version>5.10.2</version>
 		</dependency>
 	</dependencies>
-
+	<distributionManagement>
+		<repository>
+			<id>Github</id>
+			<name>Github Apache Maven Packages</name>
+			<url>https://maven.pkg.github.com/siemieniuk/voting-systems</url>
+		</repository>
+	</distributionManagement>
 	<build>
 		<plugins>
 			<plugin>
