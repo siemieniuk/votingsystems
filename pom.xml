@@ -56,8 +56,11 @@
 	<distributionManagement>
 		<repository>
 			<id>Github</id>
-			<name>Github Apache Maven Packages</name>
+			<name>Github Packages</name>
 			<url>https://maven.pkg.github.com/siemieniuk/votingsystems</url>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
 		</repository>
 	</distributionManagement>
 	<build>
