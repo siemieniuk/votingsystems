@@ -57,7 +57,7 @@
 		<repository>
 			<id>Github</id>
 			<name>Github Apache Maven Packages</name>
-			<url>https://maven.pkg.github.com/siemieniuk/voting-systems</url>
+			<url>https://maven.pkg.github.com/siemieniuk/votingsystems</url>
 		</repository>
 	</distributionManagement>
 	<build>
