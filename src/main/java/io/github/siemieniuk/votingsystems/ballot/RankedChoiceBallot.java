@@ -5,9 +5,9 @@ import io.github.siemieniuk.votingsystems.ballot.entry.CandidateEntry;
 import java.util.Map;
 
 public class RankedChoiceBallot
-        extends Ballot<Map<Integer, CandidateEntry<?, ?>>> {
+        extends Ballot<Map<Integer, CandidateEntry>> {
 
-    public RankedChoiceBallot(Map<Integer, CandidateEntry<?, ?>> preferences) {
+    public RankedChoiceBallot(Map<Integer, CandidateEntry> preferences) {
         super(preferences);
     }
 

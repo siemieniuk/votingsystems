@@ -1,14 +1,9 @@
 package io.github.siemieniuk.votingsystems.strategy.interfaces;
 
-import io.github.siemieniuk.votingsystems.ballot.CumulativeBallot;
-import io.github.siemieniuk.votingsystems.ballot.entry.CandidateEntry;
-
-import java.util.List;
-import java.util.Set;
+import io.github.siemieniuk.votingsystems.ballot.group.CumulativeBallotDataset;
 
 public interface CumulativeBallotAcceptable
-        extends VotingSystemStrategy<CumulativeBallot> {
+        extends VotingSystemAcceptable {
 
-    @Override
-    void fit(List<CumulativeBallot> ballots, Set<CandidateEntry<?, ?>> allCandidates);
+    void fit(CumulativeBallotDataset ballots);
 }

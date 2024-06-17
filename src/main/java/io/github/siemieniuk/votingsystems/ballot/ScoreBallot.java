@@ -6,9 +6,9 @@ import io.github.siemieniuk.votingsystems.ballot.entry.ScoreBallotEntry;
 import java.util.List;
 
 public class ScoreBallot
-        extends Ballot<List<ScoreBallotEntry<CandidateEntry<?, ?>>>>{
+        extends Ballot<List<ScoreBallotEntry<CandidateEntry>>>{
 
-    public ScoreBallot(List<ScoreBallotEntry<CandidateEntry<?, ?>>> preferences) {
+    public ScoreBallot(List<ScoreBallotEntry<CandidateEntry>> preferences) {
         super(preferences);
     }
 

@@ -4,9 +4,9 @@ import io.github.siemieniuk.votingsystems.ballot.entry.CandidateEntry;
 
 import java.util.List;
 
-public class MultipleChoiceBallot extends Ballot<List<CandidateEntry<?, ?>>> {
+public class MultipleChoiceBallot extends Ballot<List<CandidateEntry>> {
 
-    public MultipleChoiceBallot(List<CandidateEntry<?, ?>> preferences) {
+    public MultipleChoiceBallot(List<CandidateEntry> preferences) {
         super(preferences);
     }
 

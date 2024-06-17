@@ -1,9 +1,8 @@
-package io.github.siemieniuk.votingsystems;
+package io.github.siemieniuk.votingsystems.strategy;
 
 import io.github.siemieniuk.votingsystems.ballot.SingleChoiceBallot;
+import io.github.siemieniuk.votingsystems.ballot.group.SingleChoiceBallotDataset;
 import io.github.siemieniuk.votingsystems.ballot.entry.CandidateEntry;
-import io.github.siemieniuk.votingsystems.strategy.FirstPastThePost;
-import io.github.siemieniuk.votingsystems.wrapper.SingleChoiceVSWrapper;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
@@ -14,12 +13,11 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class FirstPastThePostExecutorTest {
 
-    static SingleChoiceVSWrapper wrapper;
+    static FirstPastThePost strategy;
 
     @BeforeAll
-    public static void setUp() {
-        FirstPastThePost strategy = new FirstPastThePost();
-        wrapper = new SingleChoiceVSWrapper(strategy);
+    public static void setUpAll() {
+        strategy = new FirstPastThePost();
     }
 
     @Test
@@ -36,13 +34,13 @@ class FirstPastThePostExecutorTest {
         }
         Collections.shuffle(chosenOptions);
 
-        List<CandidateEntry<?, ?>> entries = chosenOptions.stream().map(e -> new CandidateEntry<>(e, 1)).collect(Collectors.toList());
-        Set<CandidateEntry<?, ?>> candidates = Set.copyOf(entries);
+        List<CandidateEntry> entries = chosenOptions.stream().map(e -> new CandidateEntry(e, 1)).collect(Collectors.toList());
+        Set<CandidateEntry> candidates = Set.copyOf(entries);
         List<SingleChoiceBallot> ballots = entries.stream().map(SingleChoiceBallot::new).toList();
 
-        wrapper.fit(ballots, candidates);
-        assertEquals(1, wrapper.getWinners().getFirst().partyBlock());
-        assertEquals(1, wrapper.getWinners().size());
+        strategy.fit(new SingleChoiceBallotDataset(ballots, candidates));
+        assertEquals(1, strategy.getWinners().getFirst().partyBlock());
+        assertEquals(1, strategy.getWinners().size());
     }
 
     @Test
@@ -50,14 +48,14 @@ class FirstPastThePostExecutorTest {
         List<Integer> chosenOptions = new ArrayList<>();
         chosenOptions.add(1);
 
-        List<CandidateEntry<?, ?>> entries = chosenOptions.stream().map(e -> new CandidateEntry<>(e, 1)).collect(Collectors.toList());
-        Set<CandidateEntry<?, ?>> candidates = Set.copyOf(entries);
+        List<CandidateEntry> entries = chosenOptions.stream().map(e -> new CandidateEntry(e, 1)).collect(Collectors.toList());
+        Set<CandidateEntry> candidates = Set.copyOf(entries);
         List<SingleChoiceBallot> ballots = entries.stream().map(SingleChoiceBallot::new).toList();
 
-        wrapper.fit(ballots, candidates);
+        strategy.fit(new SingleChoiceBallotDataset(ballots, candidates));
 
-        assertEquals(entries.getFirst(), wrapper.getWinners().getFirst());
-        assertEquals(1, wrapper.getWinners().size());
+        assertEquals(entries.getFirst(), strategy.getWinners().getFirst());
+        assertEquals(1, strategy.getWinners().size());
     }
 
     @Test
@@ -73,14 +71,14 @@ class FirstPastThePostExecutorTest {
             chosenOptions.add(3);
         }
 
-        List<CandidateEntry<?, ?>> entries = chosenOptions.stream().map(e -> new CandidateEntry<>(e, 1)).collect(Collectors.toList());
-        Set<CandidateEntry<?, ?>> candidates = Set.copyOf(entries);
+        List<CandidateEntry> entries = chosenOptions.stream().map(e -> new CandidateEntry(e, 1)).collect(Collectors.toList());
+        Set<CandidateEntry> candidates = Set.copyOf(entries);
         List<SingleChoiceBallot> ballots = entries.stream().map(SingleChoiceBallot::new).toList();
 
-        wrapper.fit(ballots, candidates);
+        strategy.fit(new SingleChoiceBallotDataset(ballots, candidates));
 
-        assertEquals(1, wrapper.getWinners().getFirst().partyBlock());
-        assertEquals(1, wrapper.getWinners().size());
+        assertEquals(1, strategy.getWinners().getFirst().partyBlock());
+        assertEquals(1, strategy.getWinners().size());
     }
 
     @Test
@@ -91,13 +89,13 @@ class FirstPastThePostExecutorTest {
         }
         chosenOptions.add(1);
 
-        List<CandidateEntry<?, ?>> entries = chosenOptions.stream().map(e -> new CandidateEntry<>(e, 1)).collect(Collectors.toList());
-        Set<CandidateEntry<?, ?>> candidates = Set.copyOf(entries);
+        List<CandidateEntry> entries = chosenOptions.stream().map(e -> new CandidateEntry(e, 1)).collect(Collectors.toList());
+        Set<CandidateEntry> candidates = Set.copyOf(entries);
         List<SingleChoiceBallot> ballots = entries.stream().map(SingleChoiceBallot::new).toList();
 
-        wrapper.fit(ballots, candidates);
+        strategy.fit(new SingleChoiceBallotDataset(ballots, candidates));
 
-        assertEquals(1, wrapper.getWinners().getFirst().partyBlock());
-        assertEquals(1, wrapper.getWinners().size());
+        assertEquals(1, strategy.getWinners().getFirst().partyBlock());
+        assertEquals(1, strategy.getWinners().size());
     }
 }
