@@ -2,6 +2,10 @@
 
 [![Publish package to the Maven Central Repository and GitHub Packages](https://github.com/siemieniuk/voting-systems/actions/workflows/publish.yml/badge.svg)](https://github.com/siemieniuk/voting-systems/actions/workflows/publish.yml)
 
+**DOCUMENTATION:**
+
+[![Javadoc](https://img.shields.io/badge/JavaDoc-Online-green)](https://siemieniuk.github.io/votingsystems/javadoc/)
+
 This project implements various voting systems using Java 21.
 
 **WIP - Work In Progress**
