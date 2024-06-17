@@ -17,12 +17,14 @@
 	<properties>
 		<java.version>21</java.version>
 	</properties>
+
 	<licenses>
 		<license>
 			<name>MIT License</name>
 			<url>https://opensource.org/license/mit</url>
 		</license>
 	</licenses>
+
 	<developers>
 		<developer>
 			<name>Szymon Siemieniuk</name>
@@ -31,13 +33,6 @@
 			<organizationUrl>https://github.com/siemieniuk</organizationUrl>
 		</developer>
 	</developers>
-	<distributionManagement>
-		<repository>
-			<id>ossrh</id>
-			<name>Central Repository OSSRH</name>
-			<url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
-		</repository>
-	</distributionManagement>
 	<scm>
 		<connection>scm:git:git://github.com/siemieniuk/voting-systems.git</connection>
 		<developerConnection>scm:git:ssh://github.com:siemieniuk/voting-systems.git</developerConnection>
