@@ -13,13 +13,14 @@ This project implements various voting systems using Java 21.
 ## Available rules
 
 - [X] Anti-Plurality
+- [X] Borda Count
 - [X] First-Past-The-Post (FPTP)
 - [ ] Two Round System (TRS)
-- [ ] Borda Count
 - [ ] Condorcet
 - [ ] Bucklin
 - [ ] Approval Voting
-- [ ] Single Non-Transferable Vote
+- [ ] Single Non-Transferable Vote (SNTV)
+- [ ] Single Transferable Vote (STV)
 - [ ] Instant Runoff
 - [ ] Copeland
 - [ ] Kemeny
@@ -35,6 +36,7 @@ This project implements various voting systems using Java 21.
 - [ ] More available rules
 - [ ] More operations on datasets
 - [ ] Easier construction of datasets
+- [ ] Support for thresholds
 
 ## Example Usage
 
