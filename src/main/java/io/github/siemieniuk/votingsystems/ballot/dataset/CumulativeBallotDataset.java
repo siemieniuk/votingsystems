@@ -3,6 +3,7 @@ package io.github.siemieniuk.votingsystems.ballot.dataset;
 import io.github.siemieniuk.votingsystems.ballot.CumulativeBallot;
 import io.github.siemieniuk.votingsystems.ballot.entry.CandidateEntry;
 import io.github.siemieniuk.votingsystems.ballot.entry.CumulativeBallotEntry;
+import io.github.siemieniuk.votingsystems.ballot.entry.EntryWithNumber;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -30,5 +31,19 @@ public class CumulativeBallotDataset
                 .stream()
                 .map(CumulativeBallotEntry::getPreference)
                 .toList());
+    }
+
+    @Override
+    public boolean isConsistent() {
+        for (CumulativeBallot ballot : getBallots()) {
+            List<CandidateEntry> candidatesInBallot = ballot.getPreferences()
+                    .stream()
+                    .map(EntryWithNumber::getPreference)
+                    .toList();
+            if (!getCandidates().containsAll(candidatesInBallot)) {
+                return false;
+            }
+        }
+        return true;
     }
 }

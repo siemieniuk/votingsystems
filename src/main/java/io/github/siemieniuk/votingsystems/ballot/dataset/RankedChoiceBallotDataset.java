@@ -29,7 +29,15 @@ public class RankedChoiceBallotDataset
 
     @Override
     public boolean isConsistent() {
-        int size = getCandidates().size();
+        for (RankedChoiceBallot ballot : getBallots()) {
+            if (!getCandidates().containsAll(ballot.getPreferences().values())) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public boolean containsTotalRankings() {
         Set<CandidateEntry> firstBallotEntries = new HashSet<>(getBallots().getFirst().getPreferences().values());
         Set<Integer> firstBallotKeys = new HashSet<>(getBallots().getFirst().getPreferences().keySet());
 

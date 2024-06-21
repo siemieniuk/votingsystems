@@ -26,4 +26,14 @@ public class MultipleChoiceBallotDataset
         Set<CandidateEntry> candidates = getCandidates();
         candidates.addAll(ballot.getPreferences());
     }
+
+    @Override
+    public boolean isConsistent() {
+        for (MultipleChoiceBallot ballot : getBallots()) {
+            if (!getCandidates().containsAll(ballot.getPreferences())) {
+                return false;
+            }
+        }
+        return true;
+    }
 }
