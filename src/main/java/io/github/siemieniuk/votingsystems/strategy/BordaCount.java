@@ -14,8 +14,19 @@ import java.util.Map;
  * Counts votes according to standard Borda Count method.
  */
 public class BordaCount implements RankedChoiceBallotAcceptable {
+public class BordaCount
+        extends BaseStrategy
+        implements RankedChoiceBallotAcceptable {
 
     Map<CandidateEntry, Double> scores = new Hashtable<>();
+
+    public BordaCount() {
+        super(1);
+    }
+
+    public BordaCount(int seats) {
+        super(seats);
+    }
 
     @Override
     public void fit(RankedChoiceBallotDataset dataset) {

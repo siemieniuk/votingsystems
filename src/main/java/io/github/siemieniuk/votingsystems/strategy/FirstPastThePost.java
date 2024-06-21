@@ -11,9 +11,22 @@ import java.util.*;
  * Implements First-Past-The-Post (FPTP) algorithm
  */
 public class FirstPastThePost implements SingleChoiceBallotAcceptable {
+public class FirstPastThePost
+        extends BaseStrategy
+        implements SingleChoiceBallotAcceptable, ThresholdAcceptable {
 
     private final Map<CandidateEntry, Integer> results = new Hashtable<>();
     private final List<CandidateEntry> winners = new ArrayList<>();
+    private List<Object> partiesWithoutQuota = null;
+    private int totalVotes = 0;
+
+    public FirstPastThePost() {
+        super(1);
+    }
+
+    public FirstPastThePost(int seats) {
+        super(seats);
+    }
 
     @Override
     public void fit(SingleChoiceBallotDataset group) {

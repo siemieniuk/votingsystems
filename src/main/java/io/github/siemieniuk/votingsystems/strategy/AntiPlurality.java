@@ -14,10 +14,19 @@ import java.util.*;
  * Implements the Anti-plurality voting system
  */
 public class AntiPlurality
+        extends BaseStrategy
         implements SingleChoiceBallotAcceptable, MultipleChoiceBallotAcceptable {
 
     private final Map<CandidateEntry, Integer> results = new Hashtable<>();
     private final List<CandidateEntry> winners = new ArrayList<>();
+
+    public AntiPlurality() {
+        super(1);
+    }
+
+    public AntiPlurality(int seats) {
+        super(seats);
+    }
 
     @Override
     public void fit(SingleChoiceBallotDataset group) {
