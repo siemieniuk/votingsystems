@@ -59,9 +59,8 @@ Let's model this using the libraries from this repository:
 ```java
 import io.github.siemieniuk.votingsystems.ballot.SingleChoiceBallot;
 import io.github.siemieniuk.votingsystems.ballot.entry.CandidateEntry;
-import io.github.siemieniuk.votingsystems.ballot.group.SingleChoiceBallotDataset;
+import io.github.siemieniuk.votingsystems.ballot.dataset.SingleChoiceBallotDataset;
 import io.github.siemieniuk.votingsystems.strategy.FirstPastThePost;
-import io.github.siemieniuk.votingsystems.strategy.interfaces.SingleChoiceBallotAcceptable;
 
 class AnyClass {
     public static void main(String[] args) {
