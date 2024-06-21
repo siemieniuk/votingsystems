@@ -1,4 +1,4 @@
-package io.github.siemieniuk.votingsystems.ballot.group;
+package io.github.siemieniuk.votingsystems.ballot.dataset;
 
 import io.github.siemieniuk.votingsystems.ballot.SingleChoiceBallot;
 import io.github.siemieniuk.votingsystems.ballot.entry.CandidateEntry;
@@ -20,5 +20,15 @@ public class SingleChoiceBallotDataset
     @Override
     protected void addCandidate(SingleChoiceBallot ballot) {
         getCandidates().add(ballot.getPreferences());
+    }
+
+    @Override
+    public boolean isConsistent() {
+        for (SingleChoiceBallot ballot : getBallots()) {
+            if (!getCandidates().contains(ballot.getPreferences())) {
+                return false;
+            }
+        }
+        return true;
     }
 }

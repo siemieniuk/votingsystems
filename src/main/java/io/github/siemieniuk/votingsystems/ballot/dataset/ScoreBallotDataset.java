@@ -1,4 +1,4 @@
-package io.github.siemieniuk.votingsystems.ballot.group;
+package io.github.siemieniuk.votingsystems.ballot.dataset;
 
 import io.github.siemieniuk.votingsystems.ballot.ScoreBallot;
 import io.github.siemieniuk.votingsystems.ballot.entry.CandidateEntry;

@@ -1,7 +1,7 @@
 package io.github.siemieniuk.votingsystems.strategy;
 
 import io.github.siemieniuk.votingsystems.ballot.SingleChoiceBallot;
-import io.github.siemieniuk.votingsystems.ballot.group.SingleChoiceBallotDataset;
+import io.github.siemieniuk.votingsystems.ballot.dataset.SingleChoiceBallotDataset;
 import io.github.siemieniuk.votingsystems.ballot.entry.CandidateEntry;
 import io.github.siemieniuk.votingsystems.strategy.interfaces.SingleChoiceBallotAcceptable;
 

@@ -7,7 +7,7 @@ import java.util.Objects;
 
 @Setter
 @Getter
-abstract class EntryWithNumber<T, S extends Number> {
+public abstract class EntryWithNumber<T, S extends Number> {
 
     private T preference;
     private S score;

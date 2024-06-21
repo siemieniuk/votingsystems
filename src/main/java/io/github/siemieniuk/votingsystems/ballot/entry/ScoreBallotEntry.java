@@ -1,8 +1,8 @@
 package io.github.siemieniuk.votingsystems.ballot.entry;
 
-public class ScoreBallotEntry<T> extends EntryWithNumber<T, Float> {
+public class ScoreBallotEntry extends EntryWithNumber<CandidateEntry, Double> {
 
-    public ScoreBallotEntry(T preference, Float score) {
+    public ScoreBallotEntry(CandidateEntry preference, Double score) {
         super(preference, score);
     }
 }

@@ -2,8 +2,8 @@ package io.github.siemieniuk.votingsystems.strategy;
 
 import io.github.siemieniuk.votingsystems.ballot.MultipleChoiceBallot;
 import io.github.siemieniuk.votingsystems.ballot.SingleChoiceBallot;
-import io.github.siemieniuk.votingsystems.ballot.group.MultipleChoiceBallotDataset;
-import io.github.siemieniuk.votingsystems.ballot.group.SingleChoiceBallotDataset;
+import io.github.siemieniuk.votingsystems.ballot.dataset.MultipleChoiceBallotDataset;
+import io.github.siemieniuk.votingsystems.ballot.dataset.SingleChoiceBallotDataset;
 import io.github.siemieniuk.votingsystems.ballot.entry.CandidateEntry;
 import io.github.siemieniuk.votingsystems.strategy.interfaces.MultipleChoiceBallotAcceptable;
 import io.github.siemieniuk.votingsystems.strategy.interfaces.SingleChoiceBallotAcceptable;
@@ -68,6 +68,7 @@ public class AntiPlurality
         if (smallestVotesWins) {
             bestValue = Integer.MAX_VALUE;
         }
+
         for (Map.Entry<CandidateEntry, Integer> entry : results.entrySet()) {
             boolean condition = smallestVotesWins && (entry.getValue() < bestValue);
             condition = condition || ((!smallestVotesWins) && (entry.getValue() > bestValue));

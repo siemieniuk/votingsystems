@@ -1,8 +1,10 @@
 package io.github.siemieniuk.votingsystems.ballot;
 
+import io.github.siemieniuk.votingsystems.ballot.entry.CandidateEntry;
 import io.github.siemieniuk.votingsystems.ballot.entry.CumulativeBallotEntry;
 
 import java.util.List;
+import java.util.Set;
 
 public class CumulativeBallot extends Ballot<List<CumulativeBallotEntry>> {
 
@@ -11,12 +13,30 @@ public class CumulativeBallot extends Ballot<List<CumulativeBallotEntry>> {
     }
 
     @Override
-    public boolean isValid() {
-        double sum = 0.0D;
+    public boolean isValidTo(Set<CandidateEntry> setOfAllCandidates) {
         for (CumulativeBallotEntry entry : getPreferences()) {
+            if (!setOfAllCandidates.contains(entry.getPreference())) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    @Override
+    protected void validate(List<CumulativeBallotEntry> preferences) {
+        double sum = 0.0D;
+        final double LOWER_BOUND = 0.999D;
+        final double UPPER_BOUND = 1.001D;
+
+        for (CumulativeBallotEntry entry : preferences) {
             sum += entry.getScore();
         }
-        return sum > 0.999 && sum <= 1.001;
+
+        if (sum < LOWER_BOUND || sum >= UPPER_BOUND) {
+            String msg = "Sum of scores of CumulativeBallotEntries must be in range [" +
+                    LOWER_BOUND + "; " + UPPER_BOUND + "]; provided sum=" + sum;
+            throw new IllegalArgumentException(msg);
+        }
     }
 
     @Override

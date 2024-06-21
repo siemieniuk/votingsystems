@@ -1,9 +1,9 @@
 package io.github.siemieniuk.votingsystems.strategy.interfaces;
 
-import io.github.siemieniuk.votingsystems.ballot.group.MultipleChoiceBallotDataset;
+import io.github.siemieniuk.votingsystems.ballot.dataset.MultipleChoiceBallotDataset;
 
 public interface MultipleChoiceBallotAcceptable
         extends VotingSystemAcceptable {
 
-    void fit(MultipleChoiceBallotDataset ballots);
+    void fit(MultipleChoiceBallotDataset dataset);
 }

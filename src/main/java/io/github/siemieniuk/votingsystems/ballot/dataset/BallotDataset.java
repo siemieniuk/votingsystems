@@ -1,10 +1,8 @@
-package io.github.siemieniuk.votingsystems.ballot.group;
+package io.github.siemieniuk.votingsystems.ballot.dataset;
 
 import io.github.siemieniuk.votingsystems.ballot.Ballot;
 import io.github.siemieniuk.votingsystems.ballot.entry.CandidateEntry;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -17,12 +15,23 @@ import java.util.Set;
  * @param <T> Type of ballot
  */
 @Getter
-@NoArgsConstructor
-@AllArgsConstructor
 public abstract class BallotDataset<T extends Ballot<?>> {
 
-    private List<T> ballots = new ArrayList<>();
-    private Set<CandidateEntry> candidates = new HashSet<>();
+    private List<T> ballots;
+    private Set<CandidateEntry> candidates;
+    private int totalVotes;
+
+    public BallotDataset() {
+        this.ballots = new ArrayList<>();
+        this.candidates = new HashSet<>();
+        totalVotes = 0;
+    }
+
+    public BallotDataset(List<T> ballots, Set<CandidateEntry> candidates) {
+        this.ballots = ballots;
+        this.candidates = candidates;
+        totalVotes = ballots.size();
+    }
 
     /**
      * Adds both ballot and a new candidate(s) defined in the preferences.
@@ -31,6 +40,7 @@ public abstract class BallotDataset<T extends Ballot<?>> {
     public void add(T ballot) {
         ballots.add(ballot);
         addCandidate(ballot);
+        totalVotes++;
     }
 
     /**
@@ -41,6 +51,7 @@ public abstract class BallotDataset<T extends Ballot<?>> {
         for (T ballot : ballots) {
             add(ballot);
         }
+        totalVotes++;
     }
 
     /**
@@ -69,4 +80,6 @@ public abstract class BallotDataset<T extends Ballot<?>> {
             addCandidate(ballot);
         }
     }
+
+    public abstract boolean isConsistent();
 }
