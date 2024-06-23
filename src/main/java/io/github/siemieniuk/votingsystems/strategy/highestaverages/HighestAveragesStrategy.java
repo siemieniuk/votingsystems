@@ -15,7 +15,7 @@ public abstract class HighestAveragesStrategy
         implements SingleChoiceBallotAcceptable {
 
     private final HashMap<Serializable, Double> votesByParty = new HashMap<>();
-    private final HashMap<Serializable, Map<Serializable, Integer>> votesByCandidate = new HashMap<>();
+    private final HashMap<Serializable, Map<Serializable, Integer>> votesToCandidatePerParty = new HashMap<>();
 
     public HighestAveragesStrategy(int seats) {
         super(seats);
@@ -35,11 +35,11 @@ public abstract class HighestAveragesStrategy
             votesByParty.put(partyBlock, oldPartyValue + additionalVotes);
 
             // update by candidate
-            Map<Serializable, Integer> candidatesWithinParty = votesByCandidate.getOrDefault(partyBlock,
+            Map<Serializable, Integer> candidatesWithinParty = votesToCandidatePerParty.getOrDefault(partyBlock,
                     new HashMap<>());
             int oldCandidateValue = candidatesWithinParty.getOrDefault(candidate, 0);
             candidatesWithinParty.put(candidate, oldCandidateValue + additionalVotes);
-            votesByCandidate.put(partyBlock, candidatesWithinParty);
+            votesToCandidatePerParty.put(partyBlock, candidatesWithinParty);
         }
     }
 
@@ -53,7 +53,7 @@ public abstract class HighestAveragesStrategy
             Serializable party = entry.getKey();
             long seatsForParty = entry.getValue();
 
-            List<CandidateEntry> winningCandidatesFromParty = votesByCandidate.get(party)
+            List<CandidateEntry> winningCandidatesFromParty = votesToCandidatePerParty.get(party)
                     .entrySet()
                     .stream()
                     .sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
