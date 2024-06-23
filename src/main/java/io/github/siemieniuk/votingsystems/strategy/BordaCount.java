@@ -31,11 +31,14 @@ public class BordaCount
         checkCandidatesFrom(dataset);
 
         int maxRanking = dataset.getMaxRanking();
-        for (RankedChoiceBallot ballot : dataset.getBallots()) {
-            for (Map.Entry<Integer, CandidateEntry> entry : ballot.getPreferences().entrySet()) {
-                int newValue = scores.getOrDefault(entry.getValue(), 0);
-                newValue += maxRanking - entry.getKey();
-                scores.put(entry.getValue(), newValue);
+        for (Map.Entry<RankedChoiceBallot, Integer> entry : dataset) {
+            int howManyVotes = entry.getValue();
+            RankedChoiceBallot ballot = entry.getKey();
+
+            for (Map.Entry<Integer, CandidateEntry> candidateEntry : ballot.getPreferences().entrySet()) {
+                int newValue = scores.getOrDefault(candidateEntry.getValue(), 0);
+                newValue += howManyVotes * (maxRanking - candidateEntry.getKey());
+                scores.put(candidateEntry.getValue(), newValue);
             }
         }
     }

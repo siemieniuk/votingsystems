@@ -4,6 +4,7 @@ import io.github.siemieniuk.votingsystems.ballot.RankedChoiceBallot;
 import io.github.siemieniuk.votingsystems.ballot.entry.CandidateEntry;
 
 import java.util.HashSet;
+import java.util.Hashtable;
 import java.util.List;
 import java.util.Set;
 
@@ -15,13 +16,15 @@ public class RankedChoiceBallotDataset
     }
 
     /**
-     * Constructs new ballot dataset using list of ballos and set of candidates. <br>
+     * Constructs new ballot dataset using list of ballots and set of candidates. <br>
      * <b>WARNING:</b> by using this method make sure each ballot is as a separate pointer unless you do not use
-     * method which requires <i>updateBallot()</i> method. Make also sure that set of candidates is consistent with ballots.
-     * @param ballots A list of ballots.
+     * method which requires <i>updateBallot()</i> method.
+     * Make also sure that set of candidates is consistent with ballots.
+     * @param ballots A hashtable of ballots (first parameter indicates ballot,
+     *                second parameter indicates a number of votes).
      * @param candidates A list of candidates.
      */
-    public RankedChoiceBallotDataset(List<RankedChoiceBallot> ballots, Set<CandidateEntry> candidates) {
+    public RankedChoiceBallotDataset(Hashtable<RankedChoiceBallot, Integer> ballots, Set<CandidateEntry> candidates) {
         super(ballots, candidates);
     }
 
@@ -32,7 +35,7 @@ public class RankedChoiceBallotDataset
 
     @Override
     public boolean isConsistent() {
-        for (RankedChoiceBallot ballot : getBallots()) {
+        for (RankedChoiceBallot ballot : getBallots().keySet()) {
             if (!getCandidates().containsAll(ballot.getPreferences().values())) {
                 return false;
             }
@@ -41,10 +44,13 @@ public class RankedChoiceBallotDataset
     }
 
     public boolean containsTotalRankings() {
-        Set<CandidateEntry> firstBallotEntries = new HashSet<>(getBallots().getFirst().getPreferences().values());
-        Set<Integer> firstBallotKeys = new HashSet<>(getBallots().getFirst().getPreferences().keySet());
+        List<RankedChoiceBallot> distinctBallots = getBallots().keySet().stream().toList();
+        RankedChoiceBallot firstBallot = distinctBallots.getFirst();
 
-        for (RankedChoiceBallot ballot : getBallots().subList(1, getBallots().size())) {
+        Set<CandidateEntry> firstBallotEntries = new HashSet<>(firstBallot.getPreferences().values());
+        Set<Integer> firstBallotKeys = firstBallot.getPreferences().keySet();
+
+        for (RankedChoiceBallot ballot : distinctBallots.subList(1, distinctBallots.size())) {
             if (!ballot.getPreferences().keySet().equals(firstBallotKeys)) {
                 return false;
             }
@@ -56,7 +62,8 @@ public class RankedChoiceBallotDataset
     }
 
     public int getMaxRanking() {
-        Set<Integer> keys = getBallots().getFirst().getPreferences().keySet();
+        RankedChoiceBallot firstBallot = getBallots().keySet().stream().toList().getFirst();
+        Set<Integer> keys = firstBallot.getPreferences().keySet();
         return keys.stream()
                 .max(Integer::compareTo)
                 .get();

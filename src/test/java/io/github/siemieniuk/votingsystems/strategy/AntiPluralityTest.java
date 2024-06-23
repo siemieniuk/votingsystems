@@ -1,12 +1,14 @@
 package io.github.siemieniuk.votingsystems.strategy;
 
+import io.github.siemieniuk.votingsystems.ballot.MultipleChoiceBallot;
 import io.github.siemieniuk.votingsystems.ballot.SingleChoiceBallot;
+import io.github.siemieniuk.votingsystems.ballot.dataset.MultipleChoiceBallotDataset;
 import io.github.siemieniuk.votingsystems.ballot.dataset.SingleChoiceBallotDataset;
 import io.github.siemieniuk.votingsystems.ballot.entry.CandidateEntry;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.List;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -41,5 +43,30 @@ class AntiPluralityTest {
 
         assertEquals(1, results.size());
         assertEquals("C", results.getFirst().candidate());
+    }
+
+    @Test
+    public void givenAntiPlurality_whenFitUsingTwoDatasetsOfDifferentType_thenThrowsException() {
+        CandidateEntry cand1 = new CandidateEntry(1, 2);
+        CandidateEntry cand2 = new CandidateEntry(2, 3);
+
+        Set<CandidateEntry> candidates = Set.of(cand1, cand2);
+        SingleChoiceBallot ballot = new SingleChoiceBallot(cand1);
+
+        Hashtable<SingleChoiceBallot, Integer> ballots = new Hashtable<>();
+        ballots.put(ballot, 1);
+
+        SingleChoiceBallotDataset dataset = new SingleChoiceBallotDataset(ballots, candidates);
+        Hashtable<MultipleChoiceBallot, Integer> choicesForMC = new Hashtable<>();
+
+        ArrayList<CandidateEntry> preferences2 = new ArrayList<>();
+        preferences2.add(new CandidateEntry(1, 2));
+
+        MultipleChoiceBallot ballot2 = new MultipleChoiceBallot(preferences2);
+        MultipleChoiceBallotDataset dataset2 = new MultipleChoiceBallotDataset();
+        dataset2.add(ballot2);
+
+        antiPlurality.fit(dataset);
+        assertThrows(IllegalArgumentException.class, () -> antiPlurality.fit(dataset2));
     }
 }

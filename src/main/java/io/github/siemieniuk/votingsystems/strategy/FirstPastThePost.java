@@ -34,16 +34,17 @@ public class FirstPastThePost
 
         totalVotes += dataset.getBallots().size();
 
-        for (SingleChoiceBallot ballot : dataset) {
-            CandidateEntry entry = ballot.getPreferences();
+        for (Map.Entry<SingleChoiceBallot, Integer> entry : dataset) {
+            CandidateEntry candidateEntry = entry.getKey().getPreferences();
+            int additionalVotes = entry.getValue();
 
             // Update results
-            int value = results.getOrDefault(entry, 0);
-            results.put(entry, value + 1);
+            int value = results.getOrDefault(candidateEntry, 0);
+            results.put(candidateEntry, value + additionalVotes);
 
             // Update aggregated results
-            value = resultsByParty.getOrDefault(entry.partyBlock(), 0);
-            resultsByParty.put(entry.partyBlock(), value + 1);
+            value = resultsByParty.getOrDefault(candidateEntry.partyBlock(), 0);
+            resultsByParty.put(candidateEntry.partyBlock(), value + additionalVotes);
         }
     }
 

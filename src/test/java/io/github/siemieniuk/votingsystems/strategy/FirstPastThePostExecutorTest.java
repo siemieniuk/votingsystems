@@ -21,68 +21,52 @@ class FirstPastThePostExecutorTest {
 
     @Test
     public void testCalculate__oneWinner() {
-        List<Integer> chosenOptions = new ArrayList<>();
-        for (int i=0; i<5; i++) {
-            chosenOptions.add(1);
-        }
-        for (int i=0; i<4; i++) {
-            chosenOptions.add(2);
-        }
-        for (int i=0; i<3; i++) {
-            chosenOptions.add(3);
-        }
-        Collections.shuffle(chosenOptions);
+        CandidateEntry[] entries = new CandidateEntry[] {
+                new CandidateEntry(1, 1),
+                new CandidateEntry(2, 1),
+                new CandidateEntry(3, 1),
+        };
 
-        List<CandidateEntry> entries = chosenOptions.stream().map(e -> new CandidateEntry(e, 1)).toList();
-        Set<CandidateEntry> candidates = Set.copyOf(entries);
-        List<SingleChoiceBallot> ballots = entries.stream().map(SingleChoiceBallot::new).toList();
+        Hashtable<SingleChoiceBallot, Integer> ballots = new Hashtable<>();
+        ballots.put(new SingleChoiceBallot(entries[0]), 5);
+        ballots.put(new SingleChoiceBallot(entries[1]), 4);
+        ballots.put(new SingleChoiceBallot(entries[2]), 3);
 
-        strategy.fit(new SingleChoiceBallotDataset(ballots, candidates));
+        SingleChoiceBallotDataset dataset = new SingleChoiceBallotDataset(ballots);
+
+        strategy.fit(dataset);
         assertEquals(1, strategy.getWinners().getFirst().partyBlock());
         assertEquals(1, strategy.getWinners().size());
     }
 
     @Test
     public void testCalculate__oneExample() {
-        List<Integer> chosenOptions = new ArrayList<>();
-        chosenOptions.add(1);
+        CandidateEntry entry = new CandidateEntry(1, 1);
+        SingleChoiceBallot ballot = new SingleChoiceBallot(entry);
 
-        List<CandidateEntry> entries = chosenOptions.stream().map(e -> new CandidateEntry(e, 1)).toList();
-        Set<CandidateEntry> candidates = Set.copyOf(entries);
-        List<SingleChoiceBallot> ballots = entries.stream().map(SingleChoiceBallot::new).toList();
+        SingleChoiceBallotDataset dataset = new SingleChoiceBallotDataset();
+        dataset.add(ballot);
 
-        strategy.fit(new SingleChoiceBallotDataset(ballots, candidates));
-
-        assertEquals(entries.getFirst(), strategy.getWinners().getFirst());
+        strategy.fit(dataset);
+        assertEquals(entry, strategy.getWinners().getFirst());
         assertEquals(1, strategy.getWinners().size());
     }
 
     @Test
     public void testCalculate__massiveExample() {
-        List<SingleChoiceBallot> ballots = new AbstractList<>() {
-            @Override
-            public SingleChoiceBallot get(int index) {
-                if (index < 333_333) {
-                    return new SingleChoiceBallot(new CandidateEntry(1, 1));
-                } if (index < 666_666) {
-                    return new SingleChoiceBallot(new CandidateEntry(2, 1));
-                } else {
-                    return new SingleChoiceBallot(new CandidateEntry(3, 1));
-                }
-            }
+        Hashtable<SingleChoiceBallot, Integer> ballots = new Hashtable<>();
 
-            @Override
-            public int size() {
-                return 1_000_000;
-            }
-        };
+        int[] howManyBallots = new int[] {333_333, 333_333, 333_334};
+        int[] partyBlocks = new int[] {1, 2, 3};
 
-        Set<CandidateEntry> candidates = new HashSet<>();
-        candidates.add(new CandidateEntry(1, 1));
-        candidates.add(new CandidateEntry(2, 1));
-        candidates.add(new CandidateEntry(3, 1));
+        for (int i = 0; i < howManyBallots.length; i++) {
+            CandidateEntry entry = new CandidateEntry(partyBlocks[i], 1);
+            ballots.put(new SingleChoiceBallot(entry), howManyBallots[i]);
+        }
 
-        strategy.fit(new SingleChoiceBallotDataset(ballots, candidates));
+        SingleChoiceBallotDataset dataset = new SingleChoiceBallotDataset(ballots);
+
+        strategy.fit(dataset);
 
         assertEquals(3, strategy.getWinners().getFirst().partyBlock());
         assertEquals(1, strategy.getWinners().size());
@@ -90,15 +74,16 @@ class FirstPastThePostExecutorTest {
 
     @Test
     public void testCalculate__massiveVariability() {
-        List<Integer> chosenOptions = new ArrayList<>();
-        for (int i=0; i<1_000_000; i++) {
-            chosenOptions.add(i);
-        }
-        chosenOptions.add(1);
+        Set<CandidateEntry> candidates = new HashSet<>();
+        Hashtable<SingleChoiceBallot, Integer> ballots = new Hashtable<>();
 
-        List<CandidateEntry> entries = chosenOptions.stream().map(e -> new CandidateEntry(e, 1)).toList();
-        Set<CandidateEntry> candidates = Set.copyOf(entries);
-        List<SingleChoiceBallot> ballots = entries.stream().map(SingleChoiceBallot::new).toList();
+        for (int i=0; i<1_000_000; i++) {
+            CandidateEntry entry = new CandidateEntry(i, 1);
+            candidates.add(entry);
+            ballots.put(new SingleChoiceBallot(entry), 1);
+        }
+
+        ballots.put(new SingleChoiceBallot(new CandidateEntry(1, 1)), 2);
 
         strategy.fit(new SingleChoiceBallotDataset(ballots, candidates));
 

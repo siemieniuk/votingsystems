@@ -1,9 +1,9 @@
 package io.github.siemieniuk.votingsystems.ballot.dataset;
 
 import io.github.siemieniuk.votingsystems.ballot.Ballot;
+import io.github.siemieniuk.votingsystems.ballot.SingleChoiceBallot;
 import io.github.siemieniuk.votingsystems.ballot.entry.CandidateEntry;
 import lombok.Getter;
-import org.apache.commons.lang3.SerializationUtils;
 
 import java.io.Serializable;
 import java.util.*;
@@ -13,16 +13,16 @@ import java.util.*;
  * the parameter of all algorithms defined in io.github.siemieniuk.votingsystems.strategy.
  * @param <T> Type of ballot
  */
-// TODO: Remove Lombok Dependency
 @Getter
-public abstract class BallotDataset<T extends Ballot<?>> implements Iterable<T> {
+public abstract class BallotDataset<T extends Ballot<?>>
+        implements Iterable<Map.Entry<T, Integer>> {
 
-    private List<T> ballots;
+    private Hashtable<T, Integer> ballots;
     private final Set<CandidateEntry> candidates;
     private int totalVotes;
 
     public BallotDataset() {
-        this.ballots = new ArrayList<>();
+        this.ballots = new Hashtable<>();
         this.candidates = new HashSet<>();
         totalVotes = 0;
     }
@@ -30,14 +30,32 @@ public abstract class BallotDataset<T extends Ballot<?>> implements Iterable<T> 
     /**
      * Constructs new ballot dataset using list of ballots and set of candidates. <br>
      * <b>WARNING:</b> by using this method make sure each ballot is as a separate pointer unless you do not use
-     * method which requires <i>updateBallot()</i> method. Make also sure that set of candidates is consistent with ballots.
-     * @param ballots A list of ballots.
+     * method which requires <i>updateBallot()</i> method.
+     * Make also sure that set of candidates is consistent with ballots.
+     * @param ballots A hashtable of ballots (first parameter indicates ballot,
+     *                second parameter indicates a number of votes).
      * @param candidates A list of candidates.
      */
-    public BallotDataset(List<T> ballots, Set<CandidateEntry> candidates) {
+    public BallotDataset(Hashtable<T, Integer> ballots, Set<CandidateEntry> candidates) {
         this.ballots = ballots;
         this.candidates = candidates;
         totalVotes = ballots.size();
+    }
+
+    public BallotDataset(Hashtable<T, Integer> ballots) {
+        this.ballots = ballots;
+        this.candidates = new HashSet<>();
+
+        T firstBallot = ballots.keySet().iterator().next();
+
+        if (firstBallot instanceof SingleChoiceBallot) {
+            for (T ballot : ballots.keySet()) {
+                SingleChoiceBallot scballot = (SingleChoiceBallot) ballot;
+                candidates.add(scballot.getPreferences());
+            }
+        } else {
+            throw new IllegalArgumentException("This constructor requires Hashtable<SingleChoiceBallot, Integer>");
+        }
     }
 
     /**
@@ -56,10 +74,9 @@ public abstract class BallotDataset<T extends Ballot<?>> implements Iterable<T> 
      */
     public void add(T ballot, int repeats) {
         addCandidate(ballot);
-        for (int i = 0; i < repeats; i++) {
-            ballots.add(SerializationUtils.clone(ballot));
-            totalVotes++;
-        }
+        int previousCount = ballots.getOrDefault(ballot, 0);
+        ballots.put(ballot, previousCount + repeats);
+        totalVotes += repeats;
     }
 
     /**
@@ -91,7 +108,7 @@ public abstract class BallotDataset<T extends Ballot<?>> implements Iterable<T> 
      * Removes all ballots from the dataset.
      */
     public void clearBallots() {
-        this.ballots = new ArrayList<>();
+        this.ballots = new Hashtable<>();
         this.totalVotes = 0;
     }
 
@@ -125,8 +142,8 @@ public abstract class BallotDataset<T extends Ballot<?>> implements Iterable<T> 
      * @return An iterator for ballots
      */
     @Override
-    public Iterator<T> iterator() {
-        return ballots.iterator();
+    public Iterator<Map.Entry<T, Integer>> iterator() {
+        return ballots.entrySet().iterator();
     }
 
     /**

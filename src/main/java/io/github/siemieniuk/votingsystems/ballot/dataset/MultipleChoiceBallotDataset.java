@@ -3,7 +3,7 @@ package io.github.siemieniuk.votingsystems.ballot.dataset;
 import io.github.siemieniuk.votingsystems.ballot.MultipleChoiceBallot;
 import io.github.siemieniuk.votingsystems.ballot.entry.CandidateEntry;
 
-import java.util.List;
+import java.util.Hashtable;
 import java.util.Set;
 
 public class MultipleChoiceBallotDataset
@@ -14,13 +14,15 @@ public class MultipleChoiceBallotDataset
     }
 
     /**
-     * Constructs new ballot dataset using list of ballos and set of candidates. <br>
+     * Constructs new ballot dataset using list of ballots and set of candidates. <br>
      * <b>WARNING:</b> by using this method make sure each ballot is as a separate pointer unless you do not use
-     * method which requires <i>updateBallot()</i> method. Make also sure that set of candidates is consistent with ballots.
-     * @param ballots A list of ballots.
+     * method which requires <i>updateBallot()</i> method.
+     * Make also sure that set of candidates is consistent with ballots.
+     * @param ballots A hashtable of ballots (first parameter indicates ballot,
+     *                second parameter indicates a number of votes).
      * @param candidates A list of candidates.
      */
-    public MultipleChoiceBallotDataset(List<MultipleChoiceBallot> ballots, Set<CandidateEntry> candidates) {
+    public MultipleChoiceBallotDataset(Hashtable<MultipleChoiceBallot, Integer> ballots, Set<CandidateEntry> candidates) {
         super(ballots, candidates);
     }
 
@@ -32,7 +34,7 @@ public class MultipleChoiceBallotDataset
 
     @Override
     public boolean isConsistent() {
-        for (MultipleChoiceBallot ballot : getBallots()) {
+        for (MultipleChoiceBallot ballot : getBallots().keySet()) {
             if (!getCandidates().containsAll(ballot.getPreferences())) {
                 return false;
             }

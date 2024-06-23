@@ -37,10 +37,11 @@ public class AntiPlurality
         }
         checkCandidatesFrom(dataset);
 
-        for (SingleChoiceBallot ballot : dataset) {
-            CandidateEntry key = ballot.getPreferences();
+        for (Map.Entry<SingleChoiceBallot, Integer> entry : dataset) {
+            CandidateEntry key = entry.getKey().getPreferences();
+            int additionalVotes = entry.getValue();
             int value = results.getOrDefault(key, 0);
-            results.put(key, value + 1);
+            results.put(key, value + additionalVotes);
         }
     }
 
@@ -54,10 +55,11 @@ public class AntiPlurality
         checkCandidatesFrom(dataset);
 
 
-        for (MultipleChoiceBallot ballot : dataset) {
-            for (CandidateEntry candidateEntry : ballot.getPreferences()) {
+        for (Map.Entry<MultipleChoiceBallot, Integer> entry : dataset) {
+            int additionalVotes = entry.getValue();
+            for (CandidateEntry candidateEntry : entry.getKey().getPreferences()) {
                 int value = results.getOrDefault(candidateEntry, 0);
-                results.put(candidateEntry, value + 1);
+                results.put(candidateEntry, value + additionalVotes);
             }
         }
     }
