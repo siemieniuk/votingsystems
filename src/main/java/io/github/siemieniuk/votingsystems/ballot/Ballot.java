@@ -19,7 +19,7 @@ public abstract class Ballot<T extends Serializable> implements Serializable {
     }
 
     /**
-     * Creates shallos copy based on other ballot
+     * Creates a new instance based on a deep copy of other ballot
      * @param other A ballot to be deeply copied.
      */
     public Ballot(Ballot<T> other) {
@@ -34,7 +34,7 @@ public abstract class Ballot<T extends Serializable> implements Serializable {
         return preferences;
     }
 
-    public void updateBallot(T newPreferences) {
+    public final void updateBallot(T newPreferences) {
         validate(newPreferences);
         this.preferences = newPreferences;
     }
