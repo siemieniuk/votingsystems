@@ -3,6 +3,7 @@ package io.github.siemieniuk.votingsystems.strategy;
 import io.github.siemieniuk.votingsystems.ballot.dataset.BallotDataset;
 import io.github.siemieniuk.votingsystems.ballot.entry.CandidateEntry;
 import lombok.Getter;
+import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;
