@@ -5,7 +5,7 @@ import io.github.siemieniuk.votingsystems.ballot.dataset.RankedChoiceBallotDatas
 import io.github.siemieniuk.votingsystems.ballot.entry.CandidateEntry;
 import io.github.siemieniuk.votingsystems.strategy.interfaces.RankedChoiceBallotAcceptable;
 
-import java.util.Hashtable;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -16,7 +16,7 @@ public class BordaCount
         extends BaseStrategy
         implements RankedChoiceBallotAcceptable {
 
-    Map<CandidateEntry, Integer> scores = new Hashtable<>();
+    Map<CandidateEntry, Integer> scores = new HashMap<>();
 
     public BordaCount() {
         super(1);

@@ -2,16 +2,16 @@ package io.github.siemieniuk.votingsystems.ballot;
 
 import io.github.siemieniuk.votingsystems.ballot.entry.CandidateEntry;
 
-import java.util.Hashtable;
+import java.util.HashMap;
 import java.util.Set;
 
 public class RankedChoiceBallot
-        extends Ballot<Hashtable<Integer, CandidateEntry>> {
+        extends Ballot<HashMap<Integer, CandidateEntry>> {
 
     private int minRanking = 1;
     private int maxRanking = 0;
 
-    public RankedChoiceBallot(Hashtable<Integer, CandidateEntry> preferences) {
+    public RankedChoiceBallot(HashMap<Integer, CandidateEntry> preferences) {
         super(preferences);
     }
 
@@ -26,7 +26,7 @@ public class RankedChoiceBallot
     }
 
     @Override
-    protected void validate(Hashtable<Integer, CandidateEntry> preferences) {
+    protected void validate(HashMap<Integer, CandidateEntry> preferences) {
         minRanking = 1;
         maxRanking = preferences.keySet().stream().max(Integer::compareTo).orElse(-1);
         if (minRanking > maxRanking) {

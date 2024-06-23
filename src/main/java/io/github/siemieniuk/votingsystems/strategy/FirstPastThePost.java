@@ -15,8 +15,8 @@ public class FirstPastThePost
         extends BaseStrategy
         implements SingleChoiceBallotAcceptable, ThresholdAcceptable {
 
-    private final Map<CandidateEntry, Integer> results = new Hashtable<>();
-    private final Map<Object, Integer> resultsByParty = new Hashtable<>();
+    private final Map<CandidateEntry, Integer> results = new HashMap<>();
+    private final Map<Object, Integer> resultsByParty = new HashMap<>();
     private List<Object> partiesWithoutQuota = new ArrayList<>();
     private int totalVotes = 0;
 

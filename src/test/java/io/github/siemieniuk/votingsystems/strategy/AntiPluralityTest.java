@@ -53,11 +53,11 @@ class AntiPluralityTest {
         Set<CandidateEntry> candidates = Set.of(cand1, cand2);
         SingleChoiceBallot ballot = new SingleChoiceBallot(cand1);
 
-        Hashtable<SingleChoiceBallot, Integer> ballots = new Hashtable<>();
+        HashMap<SingleChoiceBallot, Integer> ballots = new HashMap<>();
         ballots.put(ballot, 1);
 
         SingleChoiceBallotDataset dataset = new SingleChoiceBallotDataset(ballots, candidates);
-        Hashtable<MultipleChoiceBallot, Integer> choicesForMC = new Hashtable<>();
+        HashMap<MultipleChoiceBallot, Integer> choicesForMC = new HashMap<>();
 
         ArrayList<CandidateEntry> preferences2 = new ArrayList<>();
         preferences2.add(new CandidateEntry(1, 2));

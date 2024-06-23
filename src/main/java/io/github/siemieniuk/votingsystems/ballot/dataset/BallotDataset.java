@@ -17,12 +17,12 @@ import java.util.*;
 public abstract class BallotDataset<T extends Ballot<?>>
         implements Iterable<Map.Entry<T, Integer>> {
 
-    private Hashtable<T, Integer> ballots;
+    private HashMap<T, Integer> ballots;
     private final Set<CandidateEntry> candidates;
     private int totalVotes;
 
     public BallotDataset() {
-        this.ballots = new Hashtable<>();
+        this.ballots = new HashMap<>();
         this.candidates = new HashSet<>();
         totalVotes = 0;
     }
@@ -32,17 +32,17 @@ public abstract class BallotDataset<T extends Ballot<?>>
      * <b>WARNING:</b> by using this method make sure each ballot is as a separate pointer unless you do not use
      * method which requires <i>updateBallot()</i> method.
      * Make also sure that set of candidates is consistent with ballots.
-     * @param ballots A hashtable of ballots (first parameter indicates ballot,
+     * @param ballots A HashMap of ballots (first parameter indicates ballot,
      *                second parameter indicates a number of votes).
      * @param candidates A list of candidates.
      */
-    public BallotDataset(Hashtable<T, Integer> ballots, Set<CandidateEntry> candidates) {
+    public BallotDataset(HashMap<T, Integer> ballots, Set<CandidateEntry> candidates) {
         this.ballots = ballots;
         this.candidates = candidates;
         totalVotes = ballots.size();
     }
 
-    public BallotDataset(Hashtable<T, Integer> ballots) {
+    public BallotDataset(HashMap<T, Integer> ballots) {
         this.ballots = ballots;
         this.candidates = new HashSet<>();
 
@@ -54,7 +54,7 @@ public abstract class BallotDataset<T extends Ballot<?>>
                 candidates.add(scballot.getPreferences());
             }
         } else {
-            throw new IllegalArgumentException("This constructor requires Hashtable<SingleChoiceBallot, Integer>");
+            throw new IllegalArgumentException("This constructor requires HashMap<SingleChoiceBallot, Integer>");
         }
     }
 
@@ -108,7 +108,7 @@ public abstract class BallotDataset<T extends Ballot<?>>
      * Removes all ballots from the dataset.
      */
     public void clearBallots() {
-        this.ballots = new Hashtable<>();
+        this.ballots = new HashMap<>();
         this.totalVotes = 0;
     }
 

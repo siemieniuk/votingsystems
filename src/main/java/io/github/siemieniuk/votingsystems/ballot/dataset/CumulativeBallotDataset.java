@@ -5,7 +5,7 @@ import io.github.siemieniuk.votingsystems.ballot.entry.CandidateEntry;
 import io.github.siemieniuk.votingsystems.ballot.entry.CumulativeBallotEntry;
 import io.github.siemieniuk.votingsystems.ballot.entry.EntryWithNumber;
 
-import java.util.Hashtable;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 
@@ -21,11 +21,11 @@ public class CumulativeBallotDataset
      * <b>WARNING:</b> by using this method make sure each ballot is as a separate pointer unless you do not use
      * method which requires <i>updateBallot()</i> method.
      * Make also sure that set of candidates is consistent with ballots.
-     * @param ballots A hashtable of ballots (first parameter indicates ballot,
+     * @param ballots A hashmap of ballots (first parameter indicates ballot,
      *                second parameter indicates a number of votes).
      * @param candidates A list of candidates.
      */
-    public CumulativeBallotDataset(Hashtable<CumulativeBallot, Integer> ballots, Set<CandidateEntry> candidates) {
+    public CumulativeBallotDataset(HashMap<CumulativeBallot, Integer> ballots, Set<CandidateEntry> candidates) {
         super(ballots, candidates);
     }
 

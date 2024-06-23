@@ -3,7 +3,7 @@ package io.github.siemieniuk.votingsystems.threshold;
 import io.github.siemieniuk.votingsystems.strategy.interfaces.ThresholdAcceptable;
 
 import java.util.ArrayList;
-import java.util.Hashtable;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -11,7 +11,7 @@ public class PartyThreshold {
 
     private final List<ThresholdAcceptable> votingSystems;
     private final List<PartyWithThreshold> partiesWithThreshold;
-    private final Map<Object, Integer> votes = new Hashtable<>();
+    private final Map<Object, Integer> votes = new HashMap<>();
     private final List<Object> partiesWithoutQuota = new ArrayList<>();
     private int totalVotes = 0;
 

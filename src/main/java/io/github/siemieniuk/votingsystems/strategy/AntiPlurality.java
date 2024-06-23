@@ -17,7 +17,7 @@ public class AntiPlurality
         extends BaseStrategy
         implements SingleChoiceBallotAcceptable, MultipleChoiceBallotAcceptable {
 
-    private final Map<CandidateEntry, Integer> results = new Hashtable<>();
+    private final Map<CandidateEntry, Integer> results = new HashMap<>();
     private final List<CandidateEntry> winners = new ArrayList<>();
 
     public AntiPlurality() {

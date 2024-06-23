@@ -27,7 +27,7 @@ class FirstPastThePostExecutorTest {
                 new CandidateEntry(3, 1),
         };
 
-        Hashtable<SingleChoiceBallot, Integer> ballots = new Hashtable<>();
+        HashMap<SingleChoiceBallot, Integer> ballots = new HashMap<>();
         ballots.put(new SingleChoiceBallot(entries[0]), 5);
         ballots.put(new SingleChoiceBallot(entries[1]), 4);
         ballots.put(new SingleChoiceBallot(entries[2]), 3);
@@ -54,7 +54,7 @@ class FirstPastThePostExecutorTest {
 
     @Test
     public void testCalculate__massiveExample() {
-        Hashtable<SingleChoiceBallot, Integer> ballots = new Hashtable<>();
+        HashMap<SingleChoiceBallot, Integer> ballots = new HashMap<>();
 
         int[] howManyBallots = new int[] {333_333, 333_333, 333_334};
         int[] partyBlocks = new int[] {1, 2, 3};
@@ -75,7 +75,7 @@ class FirstPastThePostExecutorTest {
     @Test
     public void testCalculate__massiveVariability() {
         Set<CandidateEntry> candidates = new HashSet<>();
-        Hashtable<SingleChoiceBallot, Integer> ballots = new Hashtable<>();
+        HashMap<SingleChoiceBallot, Integer> ballots = new HashMap<>();
 
         for (int i=0; i<1_000_000; i++) {
             CandidateEntry entry = new CandidateEntry(i, 1);
