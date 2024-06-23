@@ -4,20 +4,20 @@ import io.github.siemieniuk.votingsystems.ballot.SingleChoiceBallot;
 import io.github.siemieniuk.votingsystems.ballot.dataset.SingleChoiceBallotDataset;
 import io.github.siemieniuk.votingsystems.ballot.entry.CandidateEntry;
 import io.github.siemieniuk.votingsystems.strategy.interfaces.SingleChoiceBallotAcceptable;
+import io.github.siemieniuk.votingsystems.strategy.interfaces.ThresholdAcceptable;
 
 import java.util.*;
 
 /**
  * Implements First-Past-The-Post (FPTP) algorithm
  */
-public class FirstPastThePost implements SingleChoiceBallotAcceptable {
 public class FirstPastThePost
         extends BaseStrategy
         implements SingleChoiceBallotAcceptable, ThresholdAcceptable {
 
     private final Map<CandidateEntry, Integer> results = new Hashtable<>();
-    private final List<CandidateEntry> winners = new ArrayList<>();
-    private List<Object> partiesWithoutQuota = null;
+    private final Map<Object, Integer> resultsByParty = new Hashtable<>();
+    private List<Object> partiesWithoutQuota = new ArrayList<>();
     private int totalVotes = 0;
 
     public FirstPastThePost() {
@@ -29,44 +29,48 @@ public class FirstPastThePost
     }
 
     @Override
-    public void fit(SingleChoiceBallotDataset group) {
-        clearResults();
-        initialize(group.getCandidates());
-        calculateWinners(group);
-    }
+    public void fit(SingleChoiceBallotDataset dataset) {
+        checkCandidatesFrom(dataset);
 
-    private void clearResults() {
-        results.clear();
-        winners.clear();
-    }
+        totalVotes += dataset.getBallots().size();
 
-    private void initialize(Set<CandidateEntry> allCandidates) {
-        for (CandidateEntry candidateEntry : allCandidates) {
-            results.put(candidateEntry, 0);
-        }
-    }
+        for (SingleChoiceBallot ballot : dataset) {
+            CandidateEntry entry = ballot.getPreferences();
 
-    private void calculateWinners(SingleChoiceBallotDataset group) {
-        for (SingleChoiceBallot ballot : group.getBallots()) {
-            CandidateEntry key = ballot.getPreferences();
-            int value = results.getOrDefault(key, 0);
-            results.put(key, value + 1);
-        }
+            // Update results
+            int value = results.getOrDefault(entry, 0);
+            results.put(entry, value + 1);
 
-        int bestValue = 0;
-        for (Map.Entry<CandidateEntry, Integer> entry : results.entrySet()) {
-            if (entry.getValue() > bestValue) {
-                bestValue = entry.getValue();
-                winners.clear();
-                winners.add(entry.getKey());
-            } else if (entry.getValue() == bestValue) {
-                winners.add(entry.getKey());
-            }
+            // Update aggregated results
+            value = resultsByParty.getOrDefault(entry.partyBlock(), 0);
+            resultsByParty.put(entry.partyBlock(), value + 1);
         }
     }
 
     @Override
-    public List<CandidateEntry> getWinners() {
-        return winners;
+    protected void calculateResults() {
+        List<CandidateEntry> winners = results.entrySet().stream()
+                .sorted((a, b) -> b.getValue() - a.getValue())
+                .filter(a -> !partiesWithoutQuota.contains(a.getKey()))
+                .limit(getSeats())
+                .map(Map.Entry::getKey)
+                .toList();
+
+        setWinners(winners);
+    }
+
+    @Override
+    public int getTotalVotes() {
+        return totalVotes;
+    }
+
+    @Override
+    public void excludeParties(List<Object> partiesWithoutQuota) {
+        this.partiesWithoutQuota = partiesWithoutQuota;
+    }
+
+    @Override
+    public Map<Object, Integer> collectVotesByParty() {
+        return resultsByParty;
     }
 }

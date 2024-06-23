@@ -29,22 +29,37 @@ public class AntiPlurality
     }
 
     @Override
-    public void fit(SingleChoiceBallotDataset group) {
-        clearResults();
-        initialize(group.getCandidates());
-        calculateWinnersFromSCB(group.getBallots());
+    public void fit(SingleChoiceBallotDataset dataset) {
+        tryToChangeFitMethod(ChosenFitMethod.SINGLE_CHOICE);
+
+        if (!hasPreviousDataset()) {
+            initialize(dataset.getCandidates());
+        }
+        checkCandidatesFrom(dataset);
+
+        for (SingleChoiceBallot ballot : dataset) {
+            CandidateEntry key = ballot.getPreferences();
+            int value = results.getOrDefault(key, 0);
+            results.put(key, value + 1);
+        }
     }
 
     @Override
-    public void fit(MultipleChoiceBallotDataset group) {
-        clearResults();
-        initialize(group.getCandidates());
-        calculateWinnersFromMCB(group.getBallots());
-    }
+    public void fit(MultipleChoiceBallotDataset dataset) {
+        tryToChangeFitMethod(ChosenFitMethod.MULTIPLE_CHOICE);
 
-    private void clearResults() {
-        results.clear();
-        winners.clear();
+        if (!hasPreviousDataset()) {
+            initialize(dataset.getCandidates());
+        }
+        checkCandidatesFrom(dataset);
+
+
+        for (MultipleChoiceBallot ballot : dataset) {
+            for (CandidateEntry candidateEntry : ballot.getPreferences()) {
+                int value = results.getOrDefault(candidateEntry, 0);
+                results.put(candidateEntry, value + 1);
+            }
+        }
     }
 
     private void initialize(Set<CandidateEntry> allCandidates) {
@@ -53,36 +68,21 @@ public class AntiPlurality
         }
     }
 
-    private void calculateWinnersFromSCB(List<SingleChoiceBallot> ballots) {
-        for (SingleChoiceBallot ballot : ballots) {
-            CandidateEntry key = ballot.getPreferences();
-            int value = results.getOrDefault(key, 0);
-            results.put(key, value + 1);
+    @Override
+    protected void calculateResults() {
+        switch (getChosenFitMethod()) {
+            case SINGLE_CHOICE -> calculateResultsFromSingleChoiceBallots();
+            case MULTIPLE_CHOICE -> calculateResultsFromMultipleChoiceBallots();
+            default -> setWinners(new ArrayList<>());
         }
-        constructWinnersArray(true);
     }
 
-    private void calculateWinnersFromMCB(List<MultipleChoiceBallot> ballots) {
-        for (MultipleChoiceBallot ballot : ballots) {
-            for (CandidateEntry candidateEntry : ballot.getPreferences()) {
-                int value = results.getOrDefault(candidateEntry, 0);
-                results.put(candidateEntry, value + 1);
-            }
-        }
-        constructWinnersArray(false);
-    }
-
-    private void constructWinnersArray(boolean smallestVotesWins) {
-        int bestValue = 0;
-        if (smallestVotesWins) {
-            bestValue = Integer.MAX_VALUE;
-        }
+    private void calculateResultsFromSingleChoiceBallots() {
+        int bestValue = Integer.MAX_VALUE;
+        List<CandidateEntry> winners = new ArrayList<>();
 
         for (Map.Entry<CandidateEntry, Integer> entry : results.entrySet()) {
-            boolean condition = smallestVotesWins && (entry.getValue() < bestValue);
-            condition = condition || ((!smallestVotesWins) && (entry.getValue() > bestValue));
-
-            if (condition) {
+            if (entry.getValue() < bestValue) {
                 bestValue = entry.getValue();
                 winners.clear();
                 winners.add(entry.getKey());
@@ -90,10 +90,22 @@ public class AntiPlurality
                 winners.add(entry.getKey());
             }
         }
+        setWinners(winners);
     }
 
-    @Override
-    public List<CandidateEntry> getWinners() {
-        return winners;
+    private void calculateResultsFromMultipleChoiceBallots() {
+        int bestValue = 0;
+        List<CandidateEntry> winners = new ArrayList<>();
+
+        for (Map.Entry<CandidateEntry, Integer> entry : results.entrySet()) {
+            if (entry.getValue() > bestValue) {
+                bestValue = entry.getValue();
+                winners.clear();
+                winners.add(entry.getKey());
+            } else if (entry.getValue() == bestValue) {
+                winners.add(entry.getKey());
+            }
+        }
+        setWinners(winners);
     }
 }
