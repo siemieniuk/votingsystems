@@ -3,11 +3,12 @@ package io.github.siemieniuk.votingsystems.ballot.entry;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 @Setter
 @Getter
-public abstract class EntryWithNumber<T, S extends Number> {
+public abstract class EntryWithNumber<T extends Serializable, S extends Number> {
 
     private T preference;
     private S score;
