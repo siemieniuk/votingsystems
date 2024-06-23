@@ -12,7 +12,7 @@
 	<description>
 		Voting Systems - Implementations of various Social Choice Theory algorithms in Java 21
 	</description>
-	<url>http://github.com/siemieniuk/voting-systems</url>
+	<url>https://github.com/siemieniuk/voting-systems</url>
 
 	<properties>
 		<java.version>21</java.version>
@@ -36,7 +36,7 @@
 	<scm>
 		<connection>scm:git:git://github.com/siemieniuk/voting-systems.git</connection>
 		<developerConnection>scm:git:ssh://github.com:siemieniuk/voting-systems.git</developerConnection>
-		<url>http://github.com/siemieniuk/voting-systems/tree/main</url>
+		<url>https://github.com/siemieniuk/voting-systems/tree/main</url>
 	</scm>
 	<dependencies>
 		<dependency>
@@ -51,6 +51,11 @@
 			<artifactId>junit-jupiter</artifactId>
 			<scope>test</scope>
 			<version>5.10.2</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+			<version>3.14.0</version>
 		</dependency>
 	</dependencies>
 	<distributionManagement>
