@@ -15,6 +15,12 @@ This project implements various voting systems using Java 21.
 - [X] Anti-Plurality
 - [X] Borda Count
 - [X] First-Past-The-Post (FPTP)
+- [X] Highest averages methods
+  - [X] Adams method
+  - [X] D'Hondt method (Jefferson method)
+  - [X] Huntington-Hill method
+  - [X] Sainte-Lague method (Webster method)
+  - [X] User-defined method (thanks to abstract class `HighestAveragesStrategy`)
 - [ ] Two Round System (TRS)
 - [ ] Condorcet
 - [ ] Bucklin
@@ -31,17 +37,18 @@ This project implements various voting systems using Java 21.
 - [ ] Largest remainders methods
   - [ ] Hare quota (LR-Hare; Hamilton method)
   - [ ] Droop quota (LR-Droop)
-  - [ ] Any other remainder (available by abstract class HighestAveragesStrategy)
-- [ ] Highest averages methods
-  - [ ] D'Hondt method (Jefferson method)
-    - [ ] Sainte-Lague method (Webster method)
-    - [ ] Huntington-Hill method
+  - [ ] Any other remainder
+
+## Features
+
+- [X] ballots
+- [X] datasets
+- [X] thresholds for some methods
 
 ## TODO
 - [ ] More available rules
 - [ ] More operations on datasets
 - [ ] Easier construction of datasets
-- [X] Support for thresholds
 
 ## Example Usage
 
