@@ -13,6 +13,10 @@ public class SingleChoiceBallot extends Ballot<CandidateEntry> {
         super(preference);
     }
 
+    public SingleChoiceBallot(SingleChoiceBallot other) {
+        super(other);
+    }
+
     @Override
     public boolean isValidTo(Set<CandidateEntry> setOfAllCandidates) {
         return setOfAllCandidates.contains(getPreferences());

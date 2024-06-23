@@ -4,13 +4,14 @@ import io.github.siemieniuk.votingsystems.ballot.entry.CandidateEntry;
 import io.github.siemieniuk.votingsystems.ballot.entry.EntryWithNumber;
 import io.github.siemieniuk.votingsystems.ballot.entry.ScoreBallotEntry;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
 public class ScoreBallot
-        extends Ballot<List<ScoreBallotEntry>>{
+        extends Ballot<ArrayList<ScoreBallotEntry>>{
 
-    public ScoreBallot(List<ScoreBallotEntry> preferences) {
+    public ScoreBallot(ArrayList<ScoreBallotEntry> preferences) {
         super(preferences);
     }
 
@@ -23,7 +24,7 @@ public class ScoreBallot
     }
 
     @Override
-    protected void validate(List<ScoreBallotEntry> preferences) {
+    protected void validate(ArrayList<ScoreBallotEntry> preferences) {
         for (ScoreBallotEntry entry : preferences) {
             if (entry.getScore() == Double.NEGATIVE_INFINITY || entry.getScore() == Double.POSITIVE_INFINITY) {
                 throw new IllegalArgumentException("Provided entry with an infinite score!");

@@ -68,7 +68,7 @@ class CumulativeBallotTest {
 
     @Test
     void testCorrectBallotWithEqualDistribution() {
-        List<CumulativeBallotEntry> entries = new ArrayList<>();
+        ArrayList<CumulativeBallotEntry> entries = new ArrayList<>();
         for (int i=0; i<goodCandidatesList.size(); i++) {
             entries.add(new CumulativeBallotEntry(goodCandidatesList.get(i), 1.0D/(goodCandidatesList.size())));
         }
@@ -82,7 +82,7 @@ class CumulativeBallotTest {
 
     @Test
     void testIncorrectBallotDueToTotalCumulativeScore() {
-        List<CumulativeBallotEntry> entries = new ArrayList<>();
+        ArrayList<CumulativeBallotEntry> entries = new ArrayList<>();
         for (CandidateEntry candidateEntry : goodCandidatesList) {
             entries.add(new CumulativeBallotEntry(candidateEntry, 1.1D));
         }
@@ -95,20 +95,18 @@ class CumulativeBallotTest {
     @ParameterizedTest
     @MethodSource("provideParametersInIncorrectRange")
     void testIncorrectBallotDueToIndividualCumulativeScore(double first, double second) {
-        List<CumulativeBallotEntry> entries = new ArrayList<>();
+        ArrayList<CumulativeBallotEntry> entries = new ArrayList<>();
 
         entries.add(new CumulativeBallotEntry(goodCandidatesList.get(0), first));
         entries.add(new CumulativeBallotEntry(goodCandidatesList.get(1), second));
 
-        Exception exception = assertThrows(IllegalArgumentException.class, () -> new CumulativeBallot(entries));
-
-        assertEquals(IllegalArgumentException.class, exception.getClass());
+        assertThrows(IllegalArgumentException.class, () -> new CumulativeBallot(entries));
     }
 
     @ParameterizedTest
     @MethodSource("provideBadCandidates")
     void testIncorrectBallotDueToImproperEntries(CandidateEntry badEntry) {
-        List<CumulativeBallotEntry> entries = new ArrayList<>();
+        ArrayList<CumulativeBallotEntry> entries = new ArrayList<>();
         for (CandidateEntry goodCandidate : goodCandidatesList) {
             entries.add(new CumulativeBallotEntry(goodCandidate, 0.2D));
         }

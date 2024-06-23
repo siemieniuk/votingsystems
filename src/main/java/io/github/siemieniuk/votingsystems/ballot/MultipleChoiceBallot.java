@@ -2,13 +2,17 @@ package io.github.siemieniuk.votingsystems.ballot;
 
 import io.github.siemieniuk.votingsystems.ballot.entry.CandidateEntry;
 
-import java.util.List;
+import java.util.ArrayList;
 import java.util.Set;
 
-public class MultipleChoiceBallot extends Ballot<List<CandidateEntry>> {
+public class MultipleChoiceBallot extends Ballot<ArrayList<CandidateEntry>> {
 
-    public MultipleChoiceBallot(List<CandidateEntry> preferences) {
+    public MultipleChoiceBallot(ArrayList<CandidateEntry> preferences) {
         super(preferences);
+    }
+
+    public MultipleChoiceBallot(MultipleChoiceBallot other) {
+        super(other);
     }
 
     @Override
@@ -17,7 +21,7 @@ public class MultipleChoiceBallot extends Ballot<List<CandidateEntry>> {
     }
 
     @Override
-    protected void validate(List<CandidateEntry> preferences) {
+    protected void validate(ArrayList<CandidateEntry> preferences) {
         // No validation
     }
 

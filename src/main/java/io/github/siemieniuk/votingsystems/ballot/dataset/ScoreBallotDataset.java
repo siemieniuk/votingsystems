@@ -4,14 +4,10 @@ import io.github.siemieniuk.votingsystems.ballot.ScoreBallot;
 import io.github.siemieniuk.votingsystems.ballot.entry.CandidateEntry;
 import io.github.siemieniuk.votingsystems.ballot.entry.EntryWithNumber;
 import io.github.siemieniuk.votingsystems.ballot.entry.ScoreBallotEntry;
-import lombok.Getter;
-import lombok.Setter;
 
 import java.util.List;
 import java.util.Set;
 
-@Getter
-@Setter
 public class ScoreBallotDataset
         extends BallotDataset<ScoreBallot> {
 
@@ -19,6 +15,13 @@ public class ScoreBallotDataset
         super();
     }
 
+    /**
+     * Constructs new ballot dataset using list of ballos and set of candidates. <br>
+     * <b>WARNING:</b> by using this method make sure each ballot is as a separate pointer unless you do not use
+     * method which requires <i>updateBallot()</i> method. Make also sure that set of candidates is consistent with ballots.
+     * @param ballots A list of ballots.
+     * @param candidates A list of candidates.
+     */
     public ScoreBallotDataset(List<ScoreBallot> ballots, Set<CandidateEntry> candidates) {
         super(ballots, candidates);
     }

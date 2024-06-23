@@ -3,17 +3,16 @@ package io.github.siemieniuk.votingsystems.ballot;
 import io.github.siemieniuk.votingsystems.ballot.entry.CandidateEntry;
 import lombok.Getter;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.Hashtable;
 
 public class RankedChoiceBallotBuilder {
-    private final Map<Integer, CandidateEntry> preferences;
+    private final Hashtable<Integer, CandidateEntry> preferences;
 
     @Getter
     private int maxKey = 0;
 
     public RankedChoiceBallotBuilder() {
-        this.preferences = new HashMap<>();
+        this.preferences = new Hashtable<>();
     }
 
     public RankedChoiceBallotBuilder append(CandidateEntry candidateEntry) {
