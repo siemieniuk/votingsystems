@@ -6,7 +6,7 @@ import io.github.siemieniuk.votingsystems.ballot.entry.CandidateEntry;
 import java.util.HashMap;
 import java.util.Set;
 
-public class MultipleChoiceBallotDataset
+public final class MultipleChoiceBallotDataset
         extends BallotDataset<MultipleChoiceBallot> {
 
     public MultipleChoiceBallotDataset() {

@@ -5,7 +5,7 @@ import io.github.siemieniuk.votingsystems.ballot.entry.CandidateEntry;
 import java.util.HashMap;
 import java.util.Set;
 
-public class RankedChoiceBallot
+public final class RankedChoiceBallot
         extends Ballot<HashMap<Integer, CandidateEntry>> {
 
     private int minRanking = 1;

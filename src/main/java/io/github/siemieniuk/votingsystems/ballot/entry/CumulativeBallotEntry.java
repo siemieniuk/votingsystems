@@ -7,7 +7,7 @@ import java.util.Objects;
 
 @Setter
 @Getter
-public class CumulativeBallotEntry extends EntryWithNumber<CandidateEntry, Double> {
+public final class CumulativeBallotEntry extends EntryWithNumber<CandidateEntry, Double> {
 
     public CumulativeBallotEntry(CandidateEntry preference, double fraction) {
         super(preference, fraction);

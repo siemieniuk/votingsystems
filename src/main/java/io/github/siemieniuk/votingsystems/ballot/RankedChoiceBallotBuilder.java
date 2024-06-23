@@ -5,7 +5,7 @@ import lombok.Getter;
 
 import java.util.HashMap;
 
-public class RankedChoiceBallotBuilder {
+public final class RankedChoiceBallotBuilder {
     private final HashMap<Integer, CandidateEntry> preferences;
 
     @Getter

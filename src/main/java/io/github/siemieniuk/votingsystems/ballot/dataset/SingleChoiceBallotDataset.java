@@ -6,7 +6,7 @@ import io.github.siemieniuk.votingsystems.ballot.entry.CandidateEntry;
 import java.util.HashMap;
 import java.util.Set;
 
-public class SingleChoiceBallotDataset
+public final class SingleChoiceBallotDataset
         extends BallotDataset<SingleChoiceBallot> {
 
     public SingleChoiceBallotDataset() {

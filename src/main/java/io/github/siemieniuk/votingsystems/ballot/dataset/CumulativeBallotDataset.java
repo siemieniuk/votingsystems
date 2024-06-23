@@ -9,7 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 
-public class CumulativeBallotDataset
+public final class CumulativeBallotDataset
         extends BallotDataset<CumulativeBallot> {
 
     public CumulativeBallotDataset() {

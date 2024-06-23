@@ -6,7 +6,7 @@ import io.github.siemieniuk.votingsystems.ballot.entry.CumulativeBallotEntry;
 import java.util.ArrayList;
 import java.util.Set;
 
-public class CumulativeBallot extends Ballot<ArrayList<CumulativeBallotEntry>> {
+public final class CumulativeBallot extends Ballot<ArrayList<CumulativeBallotEntry>> {
 
     public CumulativeBallot(ArrayList<CumulativeBallotEntry> preferences) {
         super(preferences);

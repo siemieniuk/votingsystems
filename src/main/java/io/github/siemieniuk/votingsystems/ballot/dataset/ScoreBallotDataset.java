@@ -9,7 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 
-public class ScoreBallotDataset
+public final class ScoreBallotDataset
         extends BallotDataset<ScoreBallot> {
 
     public ScoreBallotDataset() {

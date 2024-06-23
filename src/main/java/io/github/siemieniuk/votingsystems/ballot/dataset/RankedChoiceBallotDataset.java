@@ -8,7 +8,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 
-public class RankedChoiceBallotDataset
+public final class RankedChoiceBallotDataset
         extends BallotDataset<RankedChoiceBallot> {
 
     public RankedChoiceBallotDataset() {

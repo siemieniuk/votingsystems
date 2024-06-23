@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-public class ScoreBallot
+public final class ScoreBallot
         extends Ballot<ArrayList<ScoreBallotEntry>>{
 
     public ScoreBallot(ArrayList<ScoreBallotEntry> preferences) {

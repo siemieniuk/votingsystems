@@ -7,7 +7,7 @@ import java.util.Set;
 /**
  * A single choice ballot, where a preference is defined as a CandidateEntry
  */
-public class SingleChoiceBallot extends Ballot<CandidateEntry> {
+public final class SingleChoiceBallot extends Ballot<CandidateEntry> {
 
     public SingleChoiceBallot(CandidateEntry preference) {
         super(preference);
