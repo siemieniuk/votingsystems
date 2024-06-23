@@ -16,8 +16,9 @@ public abstract class BaseStrategy {
     private List<String> stepsOfAlgorithm = new ArrayList<>();
     private BallotDataset<?> previousDataset = null;
 
+    @Setter
     @Getter
-    private final int seats;
+    private int seats;
 
     protected enum ChosenFitMethod {
         NOT_DEFINED,
