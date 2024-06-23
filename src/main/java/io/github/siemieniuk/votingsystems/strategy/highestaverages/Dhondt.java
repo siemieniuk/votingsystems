@@ -1,6 +1,6 @@
 package io.github.siemieniuk.votingsystems.strategy.highestaverages;
 
-public class Dhondt
+public final class Dhondt
         extends HighestAveragesStrategy {
 
     public Dhondt() {

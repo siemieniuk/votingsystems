@@ -1,6 +1,6 @@
 package io.github.siemieniuk.votingsystems.strategy.highestaverages;
 
-public class SainteLague
+public final class SainteLague
         extends HighestAveragesStrategy {
 
     public SainteLague() {

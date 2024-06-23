@@ -1,6 +1,6 @@
 package io.github.siemieniuk.votingsystems.strategy.highestaverages;
 
-public class HuntingtonHill
+public final class HuntingtonHill
         extends HighestAveragesStrategy {
 
     public HuntingtonHill() {

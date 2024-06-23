@@ -1,6 +1,6 @@
 package io.github.siemieniuk.votingsystems.strategy.highestaverages;
 
-public class Adams
+public final class Adams
         extends HighestAveragesStrategy {
 
     public Adams() {
