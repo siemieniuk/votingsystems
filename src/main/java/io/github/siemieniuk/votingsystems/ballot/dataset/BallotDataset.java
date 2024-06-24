@@ -3,7 +3,6 @@ package io.github.siemieniuk.votingsystems.ballot.dataset;
 import io.github.siemieniuk.votingsystems.ballot.Ballot;
 import io.github.siemieniuk.votingsystems.ballot.SingleChoiceBallot;
 import io.github.siemieniuk.votingsystems.ballot.entry.CandidateEntry;
-import lombok.Getter;
 
 import java.io.Serializable;
 import java.util.*;
@@ -13,7 +12,6 @@ import java.util.*;
  * the parameter of all algorithms defined in io.github.siemieniuk.votingsystems.strategy.
  * @param <T> Type of ballot
  */
-@Getter
 public abstract class BallotDataset<T extends Ballot<?>>
         implements Iterable<Map.Entry<T, Integer>> {
 
@@ -151,4 +149,16 @@ public abstract class BallotDataset<T extends Ballot<?>>
      * @return <code>true</code> if consistent, <code>false</code> otherwise
      */
     public abstract boolean isConsistent();
+
+    protected HashMap<T, Integer> getBallots() {
+        return ballots;
+    }
+
+    public Set<CandidateEntry> getCandidates() {
+        return candidates;
+    }
+
+    public int getTotalVotes() {
+        return totalVotes;
+    }
 }

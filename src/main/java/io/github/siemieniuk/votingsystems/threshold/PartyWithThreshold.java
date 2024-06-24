@@ -1,13 +1,12 @@
 package io.github.siemieniuk.votingsystems.threshold;
 
-import lombok.Getter;
+import java.io.Serializable;
 
-@Getter
 public class PartyWithThreshold {
-    private final Object party;
+    private final Serializable party;
     private final Double threshold;
 
-    public PartyWithThreshold(Object party, Double threshold) {
+    public PartyWithThreshold(Serializable party, Double threshold) {
         this.party = party;
         this.threshold = threshold;
     }
@@ -15,5 +14,13 @@ public class PartyWithThreshold {
     private PartyWithThreshold() {
         this.party = null;
         this.threshold = null;
+    }
+
+    public Serializable getParty() {
+        return party;
+    }
+
+    public Double getThreshold() {
+        return threshold;
     }
 }

@@ -1,12 +1,7 @@
 package io.github.siemieniuk.votingsystems.ballot.entry;
 
-import lombok.Getter;
-import lombok.Setter;
-
 import java.util.Objects;
 
-@Setter
-@Getter
 public final class CumulativeBallotEntry extends EntryWithNumber<CandidateEntry, Double> {
 
     public CumulativeBallotEntry(CandidateEntry preference, double fraction) {

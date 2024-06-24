@@ -2,8 +2,6 @@ package io.github.siemieniuk.votingsystems.strategy;
 
 import io.github.siemieniuk.votingsystems.ballot.dataset.BallotDataset;
 import io.github.siemieniuk.votingsystems.ballot.entry.CandidateEntry;
-import lombok.Getter;
-import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,9 +14,6 @@ public abstract class BaseStrategy {
     private List<CandidateEntry> winners = new ArrayList<>();
     private List<String> stepsOfAlgorithm = new ArrayList<>();
     private BallotDataset<?> previousDataset = null;
-
-    @Setter
-    @Getter
     private int seats;
 
     protected enum ChosenFitMethod {
@@ -75,6 +70,14 @@ public abstract class BaseStrategy {
 
     protected final void setWinners(List<CandidateEntry> winners) {
         this.winners = winners;
+    }
+
+    public int getSeats() {
+        return seats;
+    }
+
+    public void setSeats(int seats) {
+        this.seats = seats;
     }
 
     protected final ChosenFitMethod getChosenFitMethod() {

@@ -32,7 +32,7 @@ public class FirstPastThePost
     public void fit(SingleChoiceBallotDataset dataset) {
         checkCandidatesFrom(dataset);
 
-        totalVotes += dataset.getBallots().size();
+        totalVotes += dataset.getTotalVotes();
 
         for (Map.Entry<SingleChoiceBallot, Integer> entry : dataset) {
             CandidateEntry candidateEntry = entry.getKey().getPreferences();

@@ -1,14 +1,11 @@
 package io.github.siemieniuk.votingsystems.ballot;
 
 import io.github.siemieniuk.votingsystems.ballot.entry.CandidateEntry;
-import lombok.Getter;
 
 import java.util.HashMap;
 
 public final class RankedChoiceBallotBuilder {
     private final HashMap<Integer, CandidateEntry> preferences;
-
-    @Getter
     private int maxKey = 0;
 
     public RankedChoiceBallotBuilder() {
@@ -30,4 +27,7 @@ public final class RankedChoiceBallotBuilder {
         return new RankedChoiceBallot(preferences);
     }
 
+    public int getMaxKey() {
+        return maxKey;
+    }
 }
