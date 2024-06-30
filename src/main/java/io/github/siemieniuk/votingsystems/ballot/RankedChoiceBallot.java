@@ -5,12 +5,21 @@ import io.github.siemieniuk.votingsystems.ballot.entry.CandidateEntry;
 import java.util.HashMap;
 import java.util.Set;
 
+/**
+ * A class representing a ranked choice ballot.
+ * Stores ballots which for each candidate it has assigned a unique ranking.
+ * It is similar to ScoreBallot, however here the lower score, the better.
+ */
 public final class RankedChoiceBallot
         extends Ballot<HashMap<Integer, CandidateEntry>> {
 
     private int minRanking = 1;
     private int maxRanking = 0;
 
+    /**
+     * Creates a new ranked choice ballot based on HashMap
+     * @param preferences A HashMap where keys are rankings and values are objects of class CandidateEntry
+     */
     public RankedChoiceBallot(HashMap<Integer, CandidateEntry> preferences) {
         super(preferences);
     }

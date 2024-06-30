@@ -8,8 +8,8 @@ import java.io.Serializable;
 import java.util.*;
 
 /**
- * Represents an abstract ballot group;
- * the parameter of all algorithms defined in io.github.siemieniuk.votingsystems.strategy.
+ * Represents an abstract ballot dataset;
+ * a structure which can be used together with any class from: io.github.siemieniuk.votingsystems.strategy.
  * @param <T> Type of ballot
  */
 public abstract class BallotDataset<T extends Ballot<?>>
@@ -19,6 +19,9 @@ public abstract class BallotDataset<T extends Ballot<?>>
     private final Set<CandidateEntry> candidates;
     private int totalVotes;
 
+    /**
+     * Creates an empty dataset
+     */
     public BallotDataset() {
         this.ballots = new HashMap<>();
         this.candidates = new HashSet<>();
@@ -120,19 +123,6 @@ public abstract class BallotDataset<T extends Ballot<?>>
             return false;
         }
         return this.candidates.containsAll(other.candidates);
-    }
-
-    /**
-     * Updates the whole ballot list and adds new candidates defined in all preferences of ballots.<br>
-     * <b>WARNING!</b> List of candidates is NOT truncated before updating!
-     * @param ballots A list of ballots.
-     */
-    @Deprecated
-    public void setBallots(List<T> ballots) {
-        this.ballots = ballots;
-        for (T ballot : ballots) {
-            addCandidate(ballot);
-        }
     }
 
     /**

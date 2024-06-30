@@ -10,6 +10,9 @@ import org.apache.commons.lang3.SerializationUtils;
 import java.io.Serializable;
 import java.util.*;
 
+/**
+ * An abstract class for any voting method based on highest averages strategy
+ */
 public abstract class HighestAveragesStrategy
         extends BaseStrategy
         implements SingleChoiceBallotAcceptable {
@@ -17,6 +20,10 @@ public abstract class HighestAveragesStrategy
     private final HashMap<Serializable, Double> votesByParty = new HashMap<>();
     private final HashMap<Serializable, Map<Serializable, Integer>> votesToCandidatePerParty = new HashMap<>();
 
+    /**
+     * Creates a new instance of HighestAveragesStrategy
+     * @param seats Number of available seats
+     */
     public HighestAveragesStrategy(int seats) {
         super(seats);
     }

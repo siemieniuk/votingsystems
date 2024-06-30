@@ -6,6 +6,7 @@ import io.github.siemieniuk.votingsystems.ballot.entry.CandidateEntry;
 import io.github.siemieniuk.votingsystems.strategy.interfaces.SingleChoiceBallotAcceptable;
 import io.github.siemieniuk.votingsystems.strategy.interfaces.ThresholdAcceptable;
 
+import java.io.Serializable;
 import java.util.*;
 
 /**
@@ -16,14 +17,21 @@ public class FirstPastThePost
         implements SingleChoiceBallotAcceptable, ThresholdAcceptable {
 
     private final Map<CandidateEntry, Integer> results = new HashMap<>();
-    private final Map<Object, Integer> resultsByParty = new HashMap<>();
-    private List<Object> partiesWithoutQuota = new ArrayList<>();
+    private final Map<Serializable, Integer> resultsByParty = new HashMap<>();
+    private List<Serializable> partiesWithoutQuota = new ArrayList<>();
     private int totalVotes = 0;
 
+    /**
+     * Creates a new instance of FirstPastThePost with one seat to allocate
+     */
     public FirstPastThePost() {
         super(1);
     }
 
+    /**
+     * Creates a new instance of FirstPastThePost with user defined number of seats
+     * @param seats A number of available seats.
+     */
     public FirstPastThePost(int seats) {
         super(seats);
     }
@@ -66,12 +74,12 @@ public class FirstPastThePost
     }
 
     @Override
-    public void excludeParties(List<Object> partiesWithoutQuota) {
+    public void excludeParties(List<Serializable> partiesWithoutQuota) {
         this.partiesWithoutQuota = partiesWithoutQuota;
     }
 
     @Override
-    public Map<Object, Integer> collectVotesByParty() {
+    public Map<Serializable, Integer> collectVotesByParty() {
         return resultsByParty;
     }
 }

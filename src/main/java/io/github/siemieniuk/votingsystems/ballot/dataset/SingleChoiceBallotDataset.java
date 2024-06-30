@@ -6,13 +6,25 @@ import io.github.siemieniuk.votingsystems.ballot.entry.CandidateEntry;
 import java.util.HashMap;
 import java.util.Set;
 
+/**
+ * Represents a single choice ballot dataset;
+ * A structure which stores single choice ballots.
+ */
 public final class SingleChoiceBallotDataset
         extends BallotDataset<SingleChoiceBallot> {
 
+    /**
+     * Constructs an empty dataset
+     */
     public SingleChoiceBallotDataset() {
         super();
     }
 
+    /**
+     * Constructs a single choice dataset based on hashmap
+     * @param ballots A hashmap where keys are single choice ballots,
+     * and values are number of votes for a particular ballot.
+     */
     public SingleChoiceBallotDataset(HashMap<SingleChoiceBallot, Integer> ballots) {
         super(ballots);
     }

@@ -8,9 +8,17 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+/**
+ * A class representing a score ballot.
+ * Stores multiple-choice ballot with an assigned score.
+ */
 public final class ScoreBallot
         extends Ballot<ArrayList<ScoreBallotEntry>>{
 
+    /**
+     * Creates a new score ballot based on list of score ballot entries
+     * @param preferences An ArrayList of objects from class ScoreBallotEntry
+     */
     public ScoreBallot(ArrayList<ScoreBallotEntry> preferences) {
         super(preferences);
     }

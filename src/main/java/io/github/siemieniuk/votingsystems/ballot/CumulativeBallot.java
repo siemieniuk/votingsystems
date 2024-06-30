@@ -6,12 +6,23 @@ import io.github.siemieniuk.votingsystems.ballot.entry.CumulativeBallotEntry;
 import java.util.ArrayList;
 import java.util.Set;
 
+/**
+ * A class representing a cumulative ballot
+ */
 public final class CumulativeBallot extends Ballot<ArrayList<CumulativeBallotEntry>> {
 
+    /**
+     * Creates a new cumulative ballot based on list of cumulative ballot entries
+     * @param preferences An ArrayList of CumulativeBallotEntries
+     */
     public CumulativeBallot(ArrayList<CumulativeBallotEntry> preferences) {
         super(preferences);
     }
 
+    /**
+     * Creates a new instance of cumulative ballot based on deep copy of other one
+     * @param other An instance of CumulativeBallot to be deeply copied
+     */
     public CumulativeBallot(CumulativeBallot other) {
         super(other);
     }

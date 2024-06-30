@@ -9,9 +9,16 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 
+/**
+ * Represents a cumulative ballot dataset;
+ * A structure which stores comulative ballots.
+ */
 public final class CumulativeBallotDataset
         extends BallotDataset<CumulativeBallot> {
 
+    /**
+     * Constructs an empty dataset
+     */
     public CumulativeBallotDataset() {
         super();
     }

@@ -9,9 +9,16 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 
+/**
+ * Represents a score ballot dataset;
+ * A structure which stores score ballots.
+ */
 public final class ScoreBallotDataset
         extends BallotDataset<ScoreBallot> {
 
+    /**
+     * Constructs an empty dataset
+     */
     public ScoreBallotDataset() {
         super();
     }

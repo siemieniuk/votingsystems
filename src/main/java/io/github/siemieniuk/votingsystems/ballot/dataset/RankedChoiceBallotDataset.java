@@ -8,9 +8,16 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 
+/**
+ * Represents a ranked choice ballot dataset;
+ * A structure which stores ranked choice ballots.
+ */
 public final class RankedChoiceBallotDataset
         extends BallotDataset<RankedChoiceBallot> {
 
+    /**
+     * Constructs an empty dataset
+     */
     public RankedChoiceBallotDataset() {
         super();
     }

@@ -12,18 +12,25 @@ import java.util.*;
 
 /**
  * Implements the Anti-plurality voting system
+ * The winners are candidates with the fewest votes.
  */
 public class AntiPlurality
         extends BaseStrategy
         implements SingleChoiceBallotAcceptable, MultipleChoiceBallotAcceptable {
 
     private final Map<CandidateEntry, Integer> results = new HashMap<>();
-    private final List<CandidateEntry> winners = new ArrayList<>();
 
+    /**
+     * Creates a new instance of AntiPlurality with one seat to allocate
+     */
     public AntiPlurality() {
         super(1);
     }
 
+    /**
+     * Creates a new instance of AntiPlurality with user defined number of seats
+     * @param seats A number of available seats.
+     */
     public AntiPlurality(int seats) {
         super(seats);
     }

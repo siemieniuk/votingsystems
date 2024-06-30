@@ -18,10 +18,17 @@ public class BordaCount
 
     Map<CandidateEntry, Integer> scores = new HashMap<>();
 
+    /**
+     * Creates a new instance of BordaCount with one seat to allocate
+     */
     public BordaCount() {
         super(1);
     }
 
+    /**
+     * Creates a new instance of BordaCount with user defined number of seats
+     * @param seats A number of available seats.
+     */
     public BordaCount(int seats) {
         super(seats);
     }

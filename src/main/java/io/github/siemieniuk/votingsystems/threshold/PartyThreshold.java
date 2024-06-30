@@ -2,6 +2,7 @@ package io.github.siemieniuk.votingsystems.threshold;
 
 import io.github.siemieniuk.votingsystems.strategy.interfaces.ThresholdAcceptable;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -11,8 +12,8 @@ public class PartyThreshold {
 
     private final List<ThresholdAcceptable> votingSystems;
     private final List<PartyWithThreshold> partiesWithThreshold;
-    private final Map<Object, Integer> votes = new HashMap<>();
-    private final List<Object> partiesWithoutQuota = new ArrayList<>();
+    private final Map<Serializable, Integer> votes = new HashMap<>();
+    private final List<Serializable> partiesWithoutQuota = new ArrayList<>();
     private int totalVotes = 0;
 
     public PartyThreshold(List<ThresholdAcceptable> systems,
@@ -35,8 +36,8 @@ public class PartyThreshold {
 
     private void collectVotes() {
         for (ThresholdAcceptable votingSystem : votingSystems) {
-            Map<Object, Integer> vsVotes = votingSystem.collectVotesByParty();
-            for (Map.Entry<Object, Integer> entry : vsVotes.entrySet()) {
+            Map<Serializable, Integer> vsVotes = votingSystem.collectVotesByParty();
+            for (Map.Entry<Serializable, Integer> entry : vsVotes.entrySet()) {
                 int previousValue = votes.getOrDefault(entry.getKey(), 0);
                 votes.put(entry.getKey(), previousValue + entry.getValue());
             }
@@ -53,7 +54,7 @@ public class PartyThreshold {
     private void calculatePartiesWithoutQuota() {
         for (PartyWithThreshold partyWithThreshold : partiesWithThreshold) {
             int threshold = (int) (partyWithThreshold.getThreshold() * totalVotes);
-            Object party = partyWithThreshold.getParty();
+            Serializable party = partyWithThreshold.getParty();
             if (votes.get(party) < threshold) {
                 partiesWithoutQuota.add(party);
             }

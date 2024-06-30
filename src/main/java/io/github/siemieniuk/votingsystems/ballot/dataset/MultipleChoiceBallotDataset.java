@@ -6,9 +6,16 @@ import io.github.siemieniuk.votingsystems.ballot.entry.CandidateEntry;
 import java.util.HashMap;
 import java.util.Set;
 
+/**
+ * Represents a multiple choice ballot dataset;
+ * A structure which stores multiple choice ballots.
+ */
 public final class MultipleChoiceBallotDataset
         extends BallotDataset<MultipleChoiceBallot> {
 
+    /**
+     * Constructs an empty dataset
+     */
     public MultipleChoiceBallotDataset() {
         super();
     }
