@@ -5,7 +5,7 @@
 
 	<groupId>io.github.siemieniuk</groupId>
 	<artifactId>votingsystems</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.1</version>
 	<packaging>jar</packaging>
 
 	<name>Voting Systems</name>
@@ -13,10 +13,6 @@
 		Voting Systems - Implementations of various Social Choice Theory algorithms in Java 21
 	</description>
 	<url>https://github.com/siemieniuk/voting-systems</url>
-
-	<properties>
-		<java.version>21</java.version>
-	</properties>
 
 	<licenses>
 		<license>
@@ -33,11 +29,19 @@
 			<organizationUrl>https://github.com/siemieniuk</organizationUrl>
 		</developer>
 	</developers>
+
 	<scm>
 		<connection>scm:git:git://github.com/siemieniuk/voting-systems.git</connection>
 		<developerConnection>scm:git:ssh://github.com:siemieniuk/voting-systems.git</developerConnection>
 		<url>https://github.com/siemieniuk/voting-systems/tree/main</url>
 	</scm>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+		<java.version>21</java.version>
+	</properties>
+
 	<dependencies>
 		<dependency>
 			<groupId>org.junit.jupiter</groupId>
@@ -80,14 +84,18 @@
 				<executions>
 					<execution>
 						<id>attach-javadocs</id>
-						<phase>deploy</phase>
+						<phase>install</phase>
 						<goals>
 							<goal>jar</goal>
 						</goals>
 					</execution>
 				</executions>
 			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-project-info-reports-plugin</artifactId>
+				<version>3.6.0</version>
+			</plugin>
 		</plugins>
 	</build>
-
 </project>
