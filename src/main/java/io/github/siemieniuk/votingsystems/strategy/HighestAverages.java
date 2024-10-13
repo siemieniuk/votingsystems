@@ -1,9 +1,8 @@
-package io.github.siemieniuk.votingsystems.strategy.highestaverages;
+package io.github.siemieniuk.votingsystems.strategy;
 
 import io.github.siemieniuk.votingsystems.ballot.SingleChoiceBallot;
 import io.github.siemieniuk.votingsystems.ballot.dataset.SingleChoiceBallotDataset;
 import io.github.siemieniuk.votingsystems.ballot.entry.CandidateEntry;
-import io.github.siemieniuk.votingsystems.strategy.BaseStrategy;
 import io.github.siemieniuk.votingsystems.strategy.interfaces.SingleChoiceBallotAcceptable;
 import org.apache.commons.lang3.SerializationUtils;
 
@@ -13,19 +12,38 @@ import java.util.*;
 /**
  * An abstract class for any voting method based on highest averages strategy
  */
-public abstract class HighestAveragesStrategy
+public class HighestAverages
         extends BaseStrategy
         implements SingleChoiceBallotAcceptable {
 
     private final HashMap<Serializable, Double> votesByParty = new HashMap<>();
     private final HashMap<Serializable, Map<Serializable, Integer>> votesToCandidatePerParty = new HashMap<>();
+    private final DivisorFormula divisorFormula;
 
     /**
-     * Creates a new instance of HighestAveragesStrategy
-     * @param seats Number of available seats
+     * This functional interface is used for calculating vote average per party's seat.
      */
-    public HighestAveragesStrategy(int seats) {
+    @FunctionalInterface
+    public interface DivisorFormula {
+
+        /**
+         * Calculates a vote average per party's seat.
+         * @param votes A number of total votes for a party
+         * @param k A number of seats
+         * @return A vote average
+         */
+        double apply(double votes, int k);
+    }
+
+    /**
+     * Creates a new instance of HighestAverages with a number of allocated seats
+     * and a user defined divisor formula.
+     * @param seats Number of available seats
+     * @param divisorFormula A lambda with divisor formula with a signature (double votes, int k) -> double
+     */
+    public HighestAverages(int seats, DivisorFormula divisorFormula) {
         super(seats);
+        this.divisorFormula = divisorFormula;
     }
 
     @Override
@@ -81,7 +99,7 @@ public abstract class HighestAveragesStrategy
 
         // initialize next scores and seats
         for (Serializable party : parties) {
-            double nextValue = calculateNextScore(votesByParty.get(party), 0);
+            double nextValue = divisorFormula.apply(votesByParty.get(party), 0);
             currentScores.put(party, nextValue);
             seats.put(party, 0);
         }
@@ -97,7 +115,7 @@ public abstract class HighestAveragesStrategy
             int nextSeats = seats.get(partyWithSeat) + 1;
             seats.put(partyWithSeat, nextSeats);
 
-            double nextValue = calculateNextScore(votesByParty.get(partyWithSeat), nextSeats);
+            double nextValue = divisorFormula.apply(votesByParty.get(partyWithSeat), nextSeats);
             currentScores.put(partyWithSeat, nextValue);
             remainingSeats -= 1;
 
@@ -106,15 +124,55 @@ public abstract class HighestAveragesStrategy
         return seats;
     }
 
-    private double calculateNextScore(double votes, int k) {
-        return votes / divisorFormula(k);
+    /**
+     * Creates a new instance of HighestAverages which uses Adams method.
+     * <br>Adams method uses `divisor(k) = k`
+     * @param seats A number of seats to be allocated
+     * @return A new HighestAverages object which uses Adams method
+     */
+    public static HighestAverages Adams(int seats) {
+        return new HighestAverages(seats, (votes, k) -> {
+            if (k > 0) {
+                return votes / k;
+            }
+            return votes / 1e-6;
+        });
     }
 
     /**
-     * Calculates a new divisor from the provided formula
-     * (in other words: gets k-th element from the sequence of divisors).
-     * @param k Integer, index of k in the sequence.
-     * @return A divisor at k-th position in the sequence
+     * Creates a new instance of HighestAverages which uses D'Hondt method.
+     * <br>D'hondt method uses `divisor(k) = k + 1`
+     * @param seats A number of seats to be allocated
+     * @return A new HighestAverages object which uses D'Hondt method
      */
-    public abstract double divisorFormula(int k);
+    public static HighestAverages Dhondt(int seats) {
+        return new HighestAverages(seats,
+                (votes, k) -> votes / (k+1));
+    }
+
+    /**
+     * Creates a new instance of HighestAverages which uses Huntington-Hill method.
+     * <br>Huntington-Hill method uses `divisor(k) = sqrt(k*(k+1))`
+     * @param seats A number of seats to be allocated
+     * @return A new HighestAverages object which uses Huntington-Hill method
+     */
+    public static HighestAverages HuntingtonHill(int seats) {
+        return new HighestAverages(seats, (votes, k) -> {
+            if (k > 0) {
+                return votes / Math.sqrt(k * (k+1.0D));
+            }
+            return votes / 1e-6;
+        });
+    }
+
+    /**
+     * Creates a new instance of HighestAverages which uses Sainte-Laguë (a.k.a. Webster) method.
+     * <br> Sainte-Laguë method uses `divisor(k) = k + 0.5`
+     * @param seats A number of seats to be allocated
+     * @return A new HighestAverages object which uses Sainte-Laguë method
+     */
+    public static HighestAverages SainteLague(int seats) {
+        return new HighestAverages(seats,
+                (votes, k) -> votes / (k + 0.5));
+    }
 }

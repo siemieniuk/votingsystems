@@ -1,4 +1,4 @@
-package io.github.siemieniuk.votingsystems.strategy.highestaverages;
+package io.github.siemieniuk.votingsystems.strategy.examples;
 
 import io.github.siemieniuk.votingsystems.ballot.SingleChoiceBallot;
 import io.github.siemieniuk.votingsystems.ballot.dataset.SingleChoiceBallotDataset;
@@ -8,6 +8,11 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class WikipediaProportionalProfile {
+
+    /**
+     * Defines a number of seats to allocate
+     */
+    public static final int SEATS = 10;
 
     /**
      * Returns a dataset based on the example from
