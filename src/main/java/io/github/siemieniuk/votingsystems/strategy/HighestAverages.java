@@ -12,7 +12,7 @@ import java.util.*;
 /**
  * An abstract class for any voting method based on highest averages strategy
  */
-public class HighestAverages
+public final class HighestAverages
         extends BaseStrategy
         implements SingleChoiceBallotAcceptable {
 
@@ -47,7 +47,7 @@ public class HighestAverages
     }
 
     @Override
-    public final void fit(SingleChoiceBallotDataset dataset) {
+    public void fit(SingleChoiceBallotDataset dataset) {
         checkCandidatesFrom(dataset);
 
         for (Map.Entry<SingleChoiceBallot, Integer> entry : dataset) {
@@ -69,7 +69,7 @@ public class HighestAverages
     }
 
     @Override
-    protected final void calculateResults() {
+    protected void calculateResults() {
         Map<Serializable, Integer> seats = allocateSeats();
 
         List<CandidateEntry> winners = new ArrayList<>();

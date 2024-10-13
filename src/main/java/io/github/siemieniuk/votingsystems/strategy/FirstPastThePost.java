@@ -12,7 +12,7 @@ import java.util.*;
 /**
  * Implements First-Past-The-Post (FPTP) algorithm
  */
-public class FirstPastThePost
+public final class FirstPastThePost
         extends BaseStrategy
         implements SingleChoiceBallotAcceptable, ThresholdAcceptable {
 

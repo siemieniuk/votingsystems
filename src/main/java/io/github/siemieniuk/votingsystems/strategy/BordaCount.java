@@ -12,7 +12,7 @@ import java.util.Map;
 /**
  * Counts votes according to standard Borda Count method.
  */
-public class BordaCount
+public final class BordaCount
         extends BaseStrategy
         implements RankedChoiceBallotAcceptable {
 

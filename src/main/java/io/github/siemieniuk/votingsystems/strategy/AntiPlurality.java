@@ -15,6 +15,7 @@ import java.util.*;
  * The winners are candidates with the fewest votes.
  */
 public class AntiPlurality
+public final class AntiPlurality
         extends BaseStrategy
         implements SingleChoiceBallotAcceptable, MultipleChoiceBallotAcceptable {
 
