@@ -1,8 +1,9 @@
 package io.github.siemieniuk.votingsystems.ballot.entry;
 
+import java.io.Serializable;
 import java.util.Objects;
 
-public record CandidateEntry(Object partyBlock, Object candidate) {
+public record CandidateEntry(Serializable partyBlock, Serializable candidate) implements Serializable {
     @Override
     public String toString() {
         return "CandidateEntry{party=" + partyBlock + ", candidate=" + candidate + '}';

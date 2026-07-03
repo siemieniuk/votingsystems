@@ -1,13 +1,9 @@
 package io.github.siemieniuk.votingsystems.ballot.entry;
 
-import lombok.Getter;
-import lombok.Setter;
-
+import java.io.Serializable;
 import java.util.Objects;
 
-@Setter
-@Getter
-abstract class EntryWithNumber<T, S extends Number> {
+public abstract class EntryWithNumber<T extends Serializable, S extends Number> {
 
     private T preference;
     private S score;
@@ -28,5 +24,21 @@ abstract class EntryWithNumber<T, S extends Number> {
     @Override
     public int hashCode() {
         return Objects.hash(preference, score);
+    }
+
+    public T getPreference() {
+        return preference;
+    }
+
+    public void setPreference(T preference) {
+        this.preference = preference;
+    }
+
+    public S getScore() {
+        return score;
+    }
+
+    public void setScore(S score) {
+        this.score = score;
     }
 }

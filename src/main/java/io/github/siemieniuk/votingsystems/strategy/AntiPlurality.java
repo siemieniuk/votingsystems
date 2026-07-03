@@ -2,8 +2,8 @@ package io.github.siemieniuk.votingsystems.strategy;
 
 import io.github.siemieniuk.votingsystems.ballot.MultipleChoiceBallot;
 import io.github.siemieniuk.votingsystems.ballot.SingleChoiceBallot;
-import io.github.siemieniuk.votingsystems.ballot.group.MultipleChoiceBallotDataset;
-import io.github.siemieniuk.votingsystems.ballot.group.SingleChoiceBallotDataset;
+import io.github.siemieniuk.votingsystems.ballot.dataset.MultipleChoiceBallotDataset;
+import io.github.siemieniuk.votingsystems.ballot.dataset.SingleChoiceBallotDataset;
 import io.github.siemieniuk.votingsystems.ballot.entry.CandidateEntry;
 import io.github.siemieniuk.votingsystems.strategy.interfaces.MultipleChoiceBallotAcceptable;
 import io.github.siemieniuk.votingsystems.strategy.interfaces.SingleChoiceBallotAcceptable;
@@ -12,30 +12,64 @@ import java.util.*;
 
 /**
  * Implements the Anti-plurality voting system
+ * The winners are candidates with the fewest votes.
  */
 public class AntiPlurality
+public final class AntiPlurality
+        extends BaseStrategy
         implements SingleChoiceBallotAcceptable, MultipleChoiceBallotAcceptable {
 
-    private final Map<CandidateEntry, Integer> results = new Hashtable<>();
-    private final List<CandidateEntry> winners = new ArrayList<>();
+    private final Map<CandidateEntry, Integer> results = new HashMap<>();
 
-    @Override
-    public void fit(SingleChoiceBallotDataset group) {
-        clearResults();
-        initialize(group.getCandidates());
-        calculateWinnersFromSCB(group.getBallots());
+    /**
+     * Creates a new instance of AntiPlurality with one seat to allocate
+     */
+    public AntiPlurality() {
+        super(1);
+    }
+
+    /**
+     * Creates a new instance of AntiPlurality with user defined number of seats
+     * @param seats A number of available seats.
+     */
+    public AntiPlurality(int seats) {
+        super(seats);
     }
 
     @Override
-    public void fit(MultipleChoiceBallotDataset group) {
-        clearResults();
-        initialize(group.getCandidates());
-        calculateWinnersFromMCB(group.getBallots());
+    public void fit(SingleChoiceBallotDataset dataset) {
+        tryToChangeFitMethod(ChosenFitMethod.SINGLE_CHOICE);
+
+        if (!hasPreviousDataset()) {
+            initialize(dataset.getCandidates());
+        }
+        checkCandidatesFrom(dataset);
+
+        for (Map.Entry<SingleChoiceBallot, Integer> entry : dataset) {
+            CandidateEntry key = entry.getKey().getPreferences();
+            int additionalVotes = entry.getValue();
+            int value = results.getOrDefault(key, 0);
+            results.put(key, value + additionalVotes);
+        }
     }
 
-    private void clearResults() {
-        results.clear();
-        winners.clear();
+    @Override
+    public void fit(MultipleChoiceBallotDataset dataset) {
+        tryToChangeFitMethod(ChosenFitMethod.MULTIPLE_CHOICE);
+
+        if (!hasPreviousDataset()) {
+            initialize(dataset.getCandidates());
+        }
+        checkCandidatesFrom(dataset);
+
+
+        for (Map.Entry<MultipleChoiceBallot, Integer> entry : dataset) {
+            int additionalVotes = entry.getValue();
+            for (CandidateEntry candidateEntry : entry.getKey().getPreferences()) {
+                int value = results.getOrDefault(candidateEntry, 0);
+                results.put(candidateEntry, value + additionalVotes);
+            }
+        }
     }
 
     private void initialize(Set<CandidateEntry> allCandidates) {
@@ -44,35 +78,21 @@ public class AntiPlurality
         }
     }
 
-    private void calculateWinnersFromSCB(List<SingleChoiceBallot> ballots) {
-        for (SingleChoiceBallot ballot : ballots) {
-            CandidateEntry key = ballot.getPreferences();
-            int value = results.getOrDefault(key, 0);
-            results.put(key, value + 1);
+    @Override
+    protected void calculateResults() {
+        switch (getChosenFitMethod()) {
+            case SINGLE_CHOICE -> calculateResultsFromSingleChoiceBallots();
+            case MULTIPLE_CHOICE -> calculateResultsFromMultipleChoiceBallots();
+            default -> setWinners(new ArrayList<>());
         }
-        constructWinnersArray(true);
     }
 
-    private void calculateWinnersFromMCB(List<MultipleChoiceBallot> ballots) {
-        for (MultipleChoiceBallot ballot : ballots) {
-            for (CandidateEntry candidateEntry : ballot.getPreferences()) {
-                int value = results.getOrDefault(candidateEntry, 0);
-                results.put(candidateEntry, value + 1);
-            }
-        }
-        constructWinnersArray(false);
-    }
+    private void calculateResultsFromSingleChoiceBallots() {
+        int bestValue = Integer.MAX_VALUE;
+        List<CandidateEntry> winners = new ArrayList<>();
 
-    private void constructWinnersArray(boolean smallestVotesWins) {
-        int bestValue = 0;
-        if (smallestVotesWins) {
-            bestValue = Integer.MAX_VALUE;
-        }
         for (Map.Entry<CandidateEntry, Integer> entry : results.entrySet()) {
-            boolean condition = smallestVotesWins && (entry.getValue() < bestValue);
-            condition = condition || ((!smallestVotesWins) && (entry.getValue() > bestValue));
-
-            if (condition) {
+            if (entry.getValue() < bestValue) {
                 bestValue = entry.getValue();
                 winners.clear();
                 winners.add(entry.getKey());
@@ -80,10 +100,22 @@ public class AntiPlurality
                 winners.add(entry.getKey());
             }
         }
+        setWinners(winners);
     }
 
-    @Override
-    public List<CandidateEntry> getWinners() {
-        return winners;
+    private void calculateResultsFromMultipleChoiceBallots() {
+        int bestValue = 0;
+        List<CandidateEntry> winners = new ArrayList<>();
+
+        for (Map.Entry<CandidateEntry, Integer> entry : results.entrySet()) {
+            if (entry.getValue() > bestValue) {
+                bestValue = entry.getValue();
+                winners.clear();
+                winners.add(entry.getKey());
+            } else if (entry.getValue() == bestValue) {
+                winners.add(entry.getKey());
+            }
+        }
+        setWinners(winners);
     }
 }
